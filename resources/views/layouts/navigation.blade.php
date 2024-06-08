@@ -15,21 +15,36 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('tareas.index')" :active="request()->routeIs('tareas.index')">
-                        {{ __('Tareas') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes.index')">
-                        {{ __('Clientes') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('sucursales.index')" :active="request()->routeIs('sucursales.index')">
-                        {{ __('Sucursales') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('materiales.index')" :active="request()->routeIs('materiales.index')">
-                        {{ __('Materiales') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
-                        {{ __('Permisos') }}
-                    </x-nav-link>
+                    @can('users.index')
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                            {{ __('Usuarios') }}
+                        </x-nav-link>
+                    @endcan
+                    @can('tareas.index')
+                        <x-nav-link :href="route('tareas.index')" :active="request()->routeIs('tareas.index')">
+                            {{ __('Tareas') }}
+                        </x-nav-link>
+                    @endcan
+                    @can('clientes.index')
+                        <x-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes.index')">
+                            {{ __('Clientes') }}
+                        </x-nav-link>
+                    @endcan
+                    @can('sucursales.index')
+                        <x-nav-link :href="route('sucursales.index')" :active="request()->routeIs('sucursales.index')">
+                            {{ __('Sucursales') }}
+                        </x-nav-link>
+                    @endcan
+                    @can('materiales.index')
+                        <x-nav-link :href="route('materiales.index')" :active="request()->routeIs('materiales.index')">
+                            {{ __('Materiales') }}
+                        </x-nav-link>
+                    @endcan
+                    @can('roles.index')
+                        <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
+                            {{ __('Permisos') }}
+                        </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
@@ -49,9 +64,11 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
+                        @can('profile.index')
+                            <x-dropdown-link :href="route('profile.edit')">
+                                {{ __('Profile') }}
+                            </x-dropdown-link>
+                        @endcan
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -85,21 +102,36 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('tareas.index')" :active="request()->routeIs('tareas.index')">
-                {{ __('Tareas') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes.index')">
-                {{ __('Clientes') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('sucursales.index')" :active="request()->routeIs('sucursales.index')">
-                {{ __('Sucursales') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('materiales.index')" :active="request()->routeIs('materiales.index')">
-                {{ __('Materiales') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
-                {{ __('Permisos') }}
-            </x-responsive-nav-link>
+            @can('users.index')
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                    {{ __('Usuarios') }}
+                </x-responsive-nav-link>
+            @endcan
+            @can('tareas.index')
+                <x-responsive-nav-link :href="route('tareas.index')" :active="request()->routeIs('tareas.index')">
+                    {{ __('Tareas') }}
+                </x-responsive-nav-link>
+            @endcan
+            @can('clientes.index')
+                <x-responsive-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes.index')">
+                    {{ __('Clientes') }}
+                </x-responsive-nav-link>
+            @endcan
+            @can('sucursales.index')
+                <x-responsive-nav-link :href="route('sucursales.index')" :active="request()->routeIs('sucursales.index')">
+                    {{ __('Sucursales') }}
+                </x-responsive-nav-link>
+            @endcan
+            @can('materiales.index')
+                <x-responsive-nav-link :href="route('materiales.index')" :active="request()->routeIs('materiales.index')">
+                    {{ __('Materiales') }}
+                </x-responsive-nav-link>
+            @endcan
+            @can('roles.index')
+                <x-responsive-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
+                    {{ __('Permisos') }}
+                </x-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->
@@ -110,9 +142,11 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
+                @can('profile.index')
+                    <x-responsive-nav-link :href="route('profile.edit')">
+                        {{ __('Profile') }}
+                    </x-responsive-nav-link>
+                @endcan
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

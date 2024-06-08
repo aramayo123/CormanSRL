@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -23,6 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('index');
     })->name('dashboard');
+
+    Route::get('/users', [UserController::class, 'index'])->middleware('can:users.index')->name('users.index');
 
     Route::get('/tareas', function () {
         return "tareas";
