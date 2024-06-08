@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('preventivos', function (Blueprint $table) {
+        Schema::create('tareas_asignadas', function (Blueprint $table) {
             $table->id();
-            $table->integer('cliente')->nullable();
-            $table->integer('sucursal')->nullable();
-            $table->string('fecha')->nullable();
-            $table->text('observaciones')->nullable();
+			$table->unsignedBigInteger('tarea_id');
+			$table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('preventivos');
+        Schema::dropIfExists('tareas_asignadas');
     }
 };

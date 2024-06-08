@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('sucursal', function (Blueprint $table) {
             $table->id();
 			$table->string("zona");
-			$table->string("numero");
+			$table->integer("numero");
 			$table->string("sucursal");
 			$table->string("direccion");
             $table->timestamps();
