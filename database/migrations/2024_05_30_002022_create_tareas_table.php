@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('tipo_de_tarea');
             $table->string('ticket');
-			$table->unsignedBigInteger('cliente_id');
-			$table->unsignedBigInteger('sucursal_id');
+			$table->unsignedBigInteger('cliente_id')->nullable();
+            $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('set null');
+			$table->unsignedBigInteger('sucursal_id')->nullable();
+            $table->foreign('sucursal_id')->references('id')->on('sucursales')->onDelete('set null');
             $table->text('descripcion');
             $table->text('elementos');
             $table->text('diagnostico');
@@ -28,7 +30,8 @@ return new class extends Migration
             $table->integer('atm')->nullable();
             $table->integer('estado')->nullable();
             $table->integer('prioridad')->nullable();
-			$table->unsignedBigInteger('user_id');
+			$table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }

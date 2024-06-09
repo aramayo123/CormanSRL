@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('tareas_asignadas', function (Blueprint $table) {
             $table->id();
-			$table->unsignedBigInteger('tarea_id');
-			$table->unsignedBigInteger('user_id');
+			$table->unsignedBigInteger('tarea_id')->nullable();
+            $table->foreign('tarea_id')->references('id')->on('tareas')->onDelete('set null');
+			$table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }
