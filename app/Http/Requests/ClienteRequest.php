@@ -37,7 +37,7 @@ class ClienteRequest extends FormRequest
     public function messages()
     {
         return [
-            'cliente.required' => 'El cliente es obligatorio',
+            'cliente.required' => 'El cliente es obligatorio.',
             'cliente.string' => 'El cliente debe ser un texto.',
             'cliente.unique' => 'El cliente ya existe.',
         ];

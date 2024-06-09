@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Sucursal extends Model
 {
     use HasFactory;
+    protected $table = 'sucursales';
     protected $fillable = [
         'zona',
         'numero',

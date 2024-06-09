@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -33,10 +34,7 @@ Route::middleware('auth')->group(function () {
     })->name('tareas.index');
 
     Route::resource('/clientes', ClienteController::class);
-
-    Route::get('/sucursales', function () {
-        return "sucursales";
-    })->name('sucursales.index');
+    Route::resource('/sucursales', SucursalController::class);
 
     Route::get('/materiales', function () {
         return "materiales";
