@@ -16,32 +16,32 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @can('users.index')
-                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users*')">
                             {{ __('Usuarios') }}
                         </x-nav-link>
                     @endcan
                     @can('tareas.index')
-                        <x-nav-link :href="route('tareas.index')" :active="request()->routeIs('tareas.index')">
+                        <x-nav-link :href="route('tareas.index')" :active="request()->routeIs('tareas*')">
                             {{ __('Tareas') }}
                         </x-nav-link>
                     @endcan
                     @can('clientes.index')
-                        <x-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes.index')">
+                        <x-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes*')">
                             {{ __('Clientes') }}
                         </x-nav-link>
                     @endcan
                     @can('sucursales.index')
-                        <x-nav-link :href="route('sucursales.index')" :active="request()->routeIs('sucursales.index')">
+                        <x-nav-link :href="route('sucursales.index')" :active="request()->routeIs('sucursales*')">
                             {{ __('Sucursales') }}
                         </x-nav-link>
                     @endcan
                     @can('materiales.index')
-                        <x-nav-link :href="route('materiales.index')" :active="request()->routeIs('materiales.index')">
+                        <x-nav-link :href="route('materiales.index')" :active="request()->routeIs('materiales*')">
                             {{ __('Materiales') }}
                         </x-nav-link>
                     @endcan
                     @can('roles.index')
-                        <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
+                        <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles*')">
                             {{ __('Permisos') }}
                         </x-nav-link>
                     @endcan
@@ -103,32 +103,32 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             @can('users.index')
-                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users*')">
                     {{ __('Usuarios') }}
                 </x-responsive-nav-link>
             @endcan
             @can('tareas.index')
-                <x-responsive-nav-link :href="route('tareas.index')" :active="request()->routeIs('tareas.index')">
+                <x-responsive-nav-link :href="route('tareas.index')" :active="request()->routeIs('tareas*')">
                     {{ __('Tareas') }}
                 </x-responsive-nav-link>
             @endcan
             @can('clientes.index')
-                <x-responsive-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes.index')">
+                <x-responsive-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes*')">
                     {{ __('Clientes') }}
                 </x-responsive-nav-link>
             @endcan
             @can('sucursales.index')
-                <x-responsive-nav-link :href="route('sucursales.index')" :active="request()->routeIs('sucursales.index')">
+                <x-responsive-nav-link :href="route('sucursales.index')" :active="request()->routeIs('sucursales*')">
                     {{ __('Sucursales') }}
                 </x-responsive-nav-link>
             @endcan
             @can('materiales.index')
-                <x-responsive-nav-link :href="route('materiales.index')" :active="request()->routeIs('materiales.index')">
+                <x-responsive-nav-link :href="route('materiales.index')" :active="request()->routeIs('materiales*')">
                     {{ __('Materiales') }}
                 </x-responsive-nav-link>
             @endcan
             @can('roles.index')
-                <x-responsive-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
+                <x-responsive-nav-link :href="route('roles.index')" :active="request()->routeIs('roles*')">
                     {{ __('Permisos') }}
                 </x-responsive-nav-link>
             @endcan

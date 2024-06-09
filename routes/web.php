@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -31,9 +32,7 @@ Route::middleware('auth')->group(function () {
         return "tareas";
     })->name('tareas.index');
 
-    Route::get('/clientes', function () {
-        return "clientes";
-    })->name('clientes.index');
+    Route::resource('/clientes', ClienteController::class);
 
     Route::get('/sucursales', function () {
         return "sucursales";
