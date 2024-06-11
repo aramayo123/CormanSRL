@@ -16,6 +16,11 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
+    public function __construct()
+    {
+        $this->middleware('can:profile.index');
+    }
+     
     public function edit(Request $request): View
     {
         return view('profile.edit', [

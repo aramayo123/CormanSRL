@@ -6,6 +6,8 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -14,6 +16,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('can:users.index');
+    }
+     
     public function index()
     {
         //
@@ -29,7 +36,8 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view('users.create');
+        $roles = Role::all();
+        return view('users.create', compact('roles'));
     }
 
     /**
@@ -45,8 +53,8 @@ class UserController extends Controller
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+            'password' => Hash::make($request->password)
+        ])->assignRole(Role::findOrFail($request->role)->name);
         return redirect()->route('users.index')->with('exito', "El usuario ha sido creada con exito!");
     }
 
@@ -70,7 +78,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('users.edit', compact('user'));
+        $roles = Role::all();
+        return view('users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -83,11 +92,12 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $users = User::findOrFail($id);
-        $users->name = $request->name;
-        $users->username = $request->username;
-        $users->email = $request->email;
-        $users->update();
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->roles()->sync($request->role);
+        $user->update();
         return redirect()->route('users.index')->with('exito', "El usuario ha sido actualizada con exito!");
     }
 

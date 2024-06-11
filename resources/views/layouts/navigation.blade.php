@@ -13,36 +13,31 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('DASHBOARD') }}
                     </x-nav-link>
                     @can('users.index')
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users*')">
-                            {{ __('Usuarios') }}
+                            {{ __('USUARIOS') }}
                         </x-nav-link>
                     @endcan
                     @can('tareas.index')
                         <x-nav-link :href="route('tareas.index')" :active="request()->routeIs('tareas*')">
-                            {{ __('Tareas') }}
+                            {{ __('TAREAS') }}
                         </x-nav-link>
                     @endcan
                     @can('clientes.index')
                         <x-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes*')">
-                            {{ __('Clientes') }}
+                            {{ __('CLIENTES') }}
                         </x-nav-link>
                     @endcan
                     @can('sucursales.index')
                         <x-nav-link :href="route('sucursales.index')" :active="request()->routeIs('sucursales*')">
-                            {{ __('Sucursales') }}
+                            {{ __('SUCURSALES') }}
                         </x-nav-link>
                     @endcan
                     @can('materiales.index')
                         <x-nav-link :href="route('materiales.index')" :active="request()->routeIs('materiales*')">
-                            {{ __('Materiales') }}
-                        </x-nav-link>
-                    @endcan
-                    @can('roles.index')
-                        <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles*')">
-                            {{ __('Permisos') }}
+                            {{ __('MATERIALES') }}
                         </x-nav-link>
                     @endcan
                 </div>
@@ -66,7 +61,7 @@
                     <x-slot name="content">
                         @can('profile.index')
                             <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Profile') }}
+                                {{ __('PERFIL') }}
                             </x-dropdown-link>
                         @endcan
 
@@ -77,7 +72,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('SALIR') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -109,27 +104,22 @@
             @endcan
             @can('tareas.index')
                 <x-responsive-nav-link :href="route('tareas.index')" :active="request()->routeIs('tareas*')">
-                    {{ __('Tareas') }}
+                    {{ __('TAREAS') }}
                 </x-responsive-nav-link>
             @endcan
             @can('clientes.index')
                 <x-responsive-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes*')">
-                    {{ __('Clientes') }}
+                    {{ __('CLIENTES') }}
                 </x-responsive-nav-link>
             @endcan
             @can('sucursales.index')
                 <x-responsive-nav-link :href="route('sucursales.index')" :active="request()->routeIs('sucursales*')">
-                    {{ __('Sucursales') }}
+                    {{ __('SUCURSALES') }}
                 </x-responsive-nav-link>
             @endcan
             @can('materiales.index')
                 <x-responsive-nav-link :href="route('materiales.index')" :active="request()->routeIs('materiales*')">
-                    {{ __('Materiales') }}
-                </x-responsive-nav-link>
-            @endcan
-            @can('roles.index')
-                <x-responsive-nav-link :href="route('roles.index')" :active="request()->routeIs('roles*')">
-                    {{ __('Permisos') }}
+                    {{ __('MATERIALES') }}
                 </x-responsive-nav-link>
             @endcan
         </div>
@@ -144,7 +134,7 @@
             <div class="mt-3 space-y-1">
                 @can('profile.index')
                     <x-responsive-nav-link :href="route('profile.edit')">
-                        {{ __('Profile') }}
+                        {{ __('PERFIL') }}
                     </x-responsive-nav-link>
                 @endcan
 
@@ -155,7 +145,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('SALIR') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
