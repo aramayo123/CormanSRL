@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
         return view('index');
     })->name('dashboard');
 
-    Route::get('/users', [UserController::class, 'index'])->middleware('can:users.index')->name('users.index');
+    Route::resource('/users', UserController::class);
 
     Route::get('/tareas', function () {
         return "tareas";
