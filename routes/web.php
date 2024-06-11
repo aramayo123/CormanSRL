@@ -34,7 +34,9 @@ Route::middleware('auth')->group(function () {
     })->name('tareas.index');
 
     Route::resource('/clientes', ClienteController::class);
+    Route::post('/clientes/importar', [ClienteController::class, 'CargarExcel']);
     Route::resource('/sucursales', SucursalController::class);
+    Route::post('/sucursales/importar', [SucursalController::class, 'CargarExcel']);
 
     Route::get('/materiales', function () {
         return "materiales";

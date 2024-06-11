@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SucursalRequest;
+use App\Imports\SucursalImport;
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SucursalController extends Controller
 {
@@ -103,5 +105,17 @@ class SucursalController extends Controller
         //
         Sucursal::destroy($id);
         return redirect()->route('sucursales.index')->with('exito', "La sucursal ha sido eliminada con exito!");
+    }
+    public function CargarExcel(Request $request){
+        $request->validate([
+            'archivo' => 'required|mimes:xlsx'
+        ]);
+        try{
+            $file = $request->file('archivo');
+            Excel::import(new SucursalImport, $file);
+            return redirect()->route('sucursales.index')->with('exito', "Se ha cargado el EXCEL con exito!");
+        }catch(\Exception $e){
+            return redirect()->route('sucursales.index')->with('error', $e->getMessage());
+        }
     }
 }

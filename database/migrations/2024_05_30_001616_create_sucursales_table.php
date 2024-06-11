@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
 			$table->string("zona");
 			$table->integer("numero");
-			$table->string("sucursal");
+			$table->string("sucursal")->unique();
 			$table->string("direccion");
             $table->timestamps();
         });

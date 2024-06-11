@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('tareas', function (Blueprint $table) {
             $table->id();
             $table->string('tipo_de_tarea');
-            $table->string('ticket');
+            $table->string('ticket')->unique();
 			$table->unsignedBigInteger('cliente_id')->nullable();
             $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('set null');
 			$table->unsignedBigInteger('sucursal_id')->nullable();

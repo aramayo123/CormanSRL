@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('materiales', function (Blueprint $table) {
             $table->id();
 			$table->string("rubro");
-			$table->string("descripcion");
+			$table->string("descripcion")->unique();
 			$table->string("unidad");
             $table->timestamps();
         });

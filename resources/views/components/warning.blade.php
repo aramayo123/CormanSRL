@@ -1,4 +1,4 @@
-<section class="bg-gray-50 p-3 sm:p-5">
+<section class="bg-gray-50 px-3 sm:px-5">
     <div class="mx-auto max-w-screen-xl ">
         <div class="bg-white relative sm:rounded-lg overflow-hidden">
             <div class="">

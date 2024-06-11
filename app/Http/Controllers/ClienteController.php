@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClienteRequest;
 use Illuminate\Http\Request;
 use App\Models\Cliente;
+use App\Imports\ClienteImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClienteController extends Controller
 {
@@ -99,5 +101,17 @@ class ClienteController extends Controller
         //
         Cliente::destroy($id);
         return redirect()->route('clientes.index')->with('exito', "El cliente ha sido eliminado con exito!");
+    }
+    public function CargarExcel(Request $request){
+        $request->validate([
+            'archivo' => 'required|mimes:xlsx'
+        ]);
+        try{
+            $file = $request->file('archivo');
+            Excel::import(new ClienteImport, $file);
+            return redirect()->route('clientes.index')->with('exito', "Se ha cargado el EXCEL con exito!");
+        }catch(\Exception $e){
+            return redirect()->route('clientes.index')->with('error', $e->getMessage());
+        }
     }
 }

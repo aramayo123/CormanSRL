@@ -16,6 +16,13 @@
                             </x-slot:message>
                         </x-exito>
                     @endif
+                    @if( $message = Session::get('error'))
+                        <x-error>
+                            <x-slot:message> 
+                                {{ $message }}
+                            </x-slot:message>
+                        </x-error>
+                    @endif
 
                     @include('sucursales.table')
                 </div>
