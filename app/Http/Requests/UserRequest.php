@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'username' => ['required', 'string', 'max:255', 'unique:users', 'regex:/^\S*$/u'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['required'],
@@ -38,6 +38,7 @@ class UserRequest extends FormRequest
             'name.required' => 'El nombre es obligatorio.',
             'username.required' => 'El nombre de usuario es obligatorio.',
             'username.unique' => 'El nombre de usuario ya existe.',
+            'username.regex' => 'El nombre de usuario no puede contener espacios.',
             'email.required' => 'El email es obligatorio.',
             'email.unique' => 'El email ya existe.',
             'password.confirmed' => 'Las contraseñas no coinciden.',

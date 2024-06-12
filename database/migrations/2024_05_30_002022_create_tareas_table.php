@@ -21,17 +21,21 @@ return new class extends Migration
             $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('set null');
 			$table->unsignedBigInteger('sucursal_id')->nullable();
             $table->foreign('sucursal_id')->references('id')->on('sucursales')->onDelete('set null');
-            $table->text('descripcion');
-            $table->text('elementos');
-            $table->text('diagnostico');
-            $table->text('acciones');
-            $table->text('observaciones');
+            $table->text('descripcion')->nullable();
+            $table->text('elementos')->nullable();
+            $table->text('diagnostico')->nullable();
+            $table->text('acciones')->nullable();
+            $table->text('observaciones')->nullable();
             $table->integer('certificado')->nullable();
             $table->integer('atm')->nullable();
-            $table->integer('estado')->nullable();
-            $table->integer('prioridad')->nullable();
+            $table->unsignedBigInteger('estado_id')->nullable();
+            $table->foreign('estado_id')->references('id')->on('estados')->onDelete('set null');
+            $table->unsignedBigInteger('prioridad_id')->nullable();
+            $table->foreign('prioridad_id')->references('id')->on('prioridades')->onDelete('set null');
 			$table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->string('fecha_mail')->nullable();
+            $table->string('fecha_cerrado')->nullable();
             $table->timestamps();
         });
     }

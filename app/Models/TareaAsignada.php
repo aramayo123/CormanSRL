@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class TareaAsignada extends Model
 {
     use HasFactory;
+    protected $table = "tareas_asignadas";
     protected $fillable = [
         'tarea_id',
         'user_id',

@@ -73,7 +73,7 @@ class MaterialController extends Controller
     {
         //
         $material = Material::findOrFail($id);
-        return view('materiales.edit');
+        return view('materiales.edit', compact('material'));
     }
 
     /**

@@ -4,6 +4,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SucursalController;
+use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -27,11 +28,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('index');
     })->name('dashboard');
-
-    Route::get('/tareas', function () {
-        return "tareas";
-    })->name('tareas.index');
-
     Route::get('/roles', function () {
         return "roles";
     })->name('roles.index');
@@ -40,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/users', UserController::class);
     Route::resource('/sucursales', SucursalController::class);
     Route::resource('/materiales', MaterialController::class);
+    Route::resource('/tareas', TareaController::class);
     Route::post('/sucursales/importar', [SucursalController::class, 'CargarExcel']);
     Route::post('/clientes/importar', [ClienteController::class, 'CargarExcel']);
     Route::post('/materiales/importar', [MaterialController::class, 'CargarExcel']);
