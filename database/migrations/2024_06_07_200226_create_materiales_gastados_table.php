@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreign('material_id')->references('id')->on('materiales')->onDelete('set null');
 			$table->unsignedBigInteger('tarea_id')->nullable();
             $table->foreign('tarea_id')->references('id')->on('tareas')->onDelete('set null');
-			$table->integer('unidades');
-            $table->float('precio', 2);
+			$table->integer('cantidad');
+            $table->integer('precio');
             $table->timestamps();
         });
     }

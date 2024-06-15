@@ -16,10 +16,10 @@ class TareaAsignada extends Model
     ];
     public function Tarea(): HasOne
     {
-        return $this->hasOne(Tarea::class, 'tarea_id');
+        return $this->hasOne(Tarea::class, 'id', 'tarea_id');
     }
     public function User(): HasOne
     {
-        return $this->hasOne(User::class, 'user_id');
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

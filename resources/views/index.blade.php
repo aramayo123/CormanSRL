@@ -9,9 +9,30 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 ">
-                    {{ __("You're logged in!") }}
-                </div>
+                    @if ($message = Session::get('exito'))
+                        <x-exito>
+                            <x-slot:message>
+                                {{ $message }}
+                            </x-slot:message>
+                        </x-exito>
+                    @endif
+                    @if ($message = Session::get('error'))
+                        <x-error>
+                            <x-slot:message>
+                                {{ $message }}
+                            </x-slot:message>
+                        </x-error>
+                    @endif
+                    @if (Auth::user()->hasRole('Operario'))
+                        @include('tableOperario')
+                    @endif
+
+                    @if (Auth::user()->hasRole('Corman'))
+                        @include('tableCorman')
+                    @endcan
             </div>
         </div>
     </div>
+</div>
+</div>
 </x-app-layout>

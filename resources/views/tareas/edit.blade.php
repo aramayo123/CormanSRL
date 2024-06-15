@@ -15,16 +15,16 @@
                         @csrf
                         @method('patch')
                         <div class="mb-5">
-                            <label for="tipo_de_tarea" class="block mb-2 text-sm font-medium text-gray-900 ">Seleccione el tipo de tarea <p class="inline-block text-red-500">*</p></label>
-                            <select id="tipo_de_tarea" name="tipo_de_tarea"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                                <option value="">Ninguna seleccion</option>
-                                <option value="CORRECTIVO" {{ $tarea->tipo_de_tarea === "CORRECTIVO" ? "selected":"" }}>CORRECTIVO</option>
-                                <option value="PREVENTIVO" {{ $tarea->tipo_de_tarea === "PREVENTIVO" ? "selected":"" }}>PREVENTIVO</option>
+                            <label for="tipo_de_tarea" class="block mb-2 text-sm font-medium text-gray-900 ">Tipo de tarea :</label>
+                            <select disabled class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                <option value="{{ $tarea->tipo_de_tarea }}" selected>{{ $tarea->tipo_de_tarea }}</option>
+                            </select>
+                            <select id="tipo_de_tarea" name="tipo_de_tarea" class="hidden">
+                                <option value="{{ $tarea->tipo_de_tarea }}" selected>{{ $tarea->tipo_de_tarea }}</option>
                             </select>
                             <x-mi-input-error :messages="$errors->get('tipo_de_tarea')" />
                         </div>
-                        <div class="mb-5 flex gap-5">
+                        <div class="mb-5 flex gap-5 ocultar">
                             <div class="w-8/12">
                                 <label for="ticket" class="block mb-2 text-sm font-medium text-gray-900 ">Escriba el
                                     numero de ticket (Remedy): <p class="inline-block text-red-500">*</p></label>
@@ -74,14 +74,14 @@
                                 class="hover:cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-md">
                             <x-mi-input-error :messages="$errors->get('fecha_mail')" />
                         </div>
-                        <div class="mb-5">
+                        <div class="mb-5 ocultar">
                             <label for="fecha_cerrado" class="block mb-2 text-sm font-medium text-gray-900 ">Seleccione
-                                la fecha de cierre <p class="inline-block text-gray-500">(opcional)</p></label>
+                                la fecha de cierre <p class="inline-block text-gray-500">(opcional si es correctivo)</p></label>
                             <input type="date" id="fecha_cerrado" name="fecha_cerrado" value="{{ $tarea->fecha_cerrado }}"
                                 class="hover:cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-md">
                             <x-mi-input-error :messages="$errors->get('fecha_cerrado')" />
                         </div>
-                        <div class="mb-5">
+                        <div class="mb-5 ocultar">
                             <label for="prioridad_id" class="block mb-2 text-sm font-medium text-gray-900 ">Seleccione una
                                 prioridad <p class="inline-block text-red-500">*</p></label>
                             <select id="prioridad_id" name="prioridad_id"
@@ -175,3 +175,35 @@
         </div>
     </div>
 </x-app-layout>
+<script>
+    var seleccion = document.querySelector('#tipo_de_tarea');
+    var divsOcultar = document.querySelectorAll('.ocultar');
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var selectedOption = seleccion.options[seleccion.selectedIndex];
+        if(selectedOption.value === "PREVENTIVO"){
+            divsOcultar.forEach(element => {
+                element.classList.add("hidden");
+            });
+        }else{
+            divsOcultar.forEach(element => {
+                element.classList.remove("hidden");
+            });
+        }
+    });
+
+    seleccion.addEventListener('change',
+        function(){
+            var selectedOption = this.options[seleccion.selectedIndex];
+            if(selectedOption.value === "PREVENTIVO"){
+                divsOcultar.forEach(element => {
+                    element.classList.add("hidden");
+                });
+            }else{
+                divsOcultar.forEach(element => {
+                    element.classList.remove("hidden");
+                });
+            }
+        }
+    );
+</script>

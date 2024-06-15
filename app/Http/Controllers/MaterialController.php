@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MaterialRequest;
 use App\Imports\MaterialImport;
 use App\Models\Material;
+use App\Models\MaterialGastado;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
