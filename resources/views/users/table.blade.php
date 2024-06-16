@@ -61,10 +61,10 @@
                                 <td class="px-4 py-3">{{ $user->name }}</td>
                                 <td class="px-4 py-3">{{ $user->username }}</td>
                                 <td class="px-4 py-3">{{ $user->email }}</td>
-                                <td class="px-4 py-3">{{ $user->created_at }}</td>
                                 <td class="px-4 py-3">{{ 
-                                        ($user->hasRole('Corman') ? "Corman": ($user->hasRole('Facilitie') ? "Facilitie":"Operario"))
-                                 }}</td>
+                                    ($user->hasRole('Corman') ? "Corman": ($user->hasRole('Facilitie') ? "Facilitie":"Operario"))
+                             }}</td>
+                                <td class="px-4 py-3">{{ $user->created_at }}</td>
                                 <td class="px-4 py-3 flex items-center justify-center align-items-center">
                                     <a href="" class="hover:cursor-pointer hover:bg-gray-100">
                                         <svg class="w-6 h-6 text-gray-800" aria-hidden="true"
