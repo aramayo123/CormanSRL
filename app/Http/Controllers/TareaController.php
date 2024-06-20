@@ -16,6 +16,7 @@ use App\Models\Sucursal;
 use App\Models\Tarea;
 use App\Models\TareaAsignada;
 use App\Models\User;
+use App\Models\Imagen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -330,7 +331,7 @@ class TareaController extends Controller
                 'id'  => $material->id,
                 'nombre_material'  => $material->Material->descripcion,
                 'precio'  => $material->precio,
-                'cantidad'  => $material->precio,
+                'cantidad'  => $material->cantidad,
                 )
             );
         }
@@ -405,6 +406,12 @@ class TareaController extends Controller
         $imagen = $file->storeAs('public/'.$carpeta_local, $imagen_name);    
         $imagen = Storage::url($imagen);
 
+        Imagen::create([
+            'nombre' => $imagen_name, 
+            'url' => substr($imagen, 1), 
+            'tarea_id' => $request->tarea_id
+        ]);
+
         return $imagen_name;
     }
 
@@ -451,6 +458,12 @@ class TareaController extends Controller
         $imagen_name = time().'_'.$file->getClientOriginalName();
         $imagen = $file->storeAs('public/'.$carpeta, time().'_'.$file->getClientOriginalName());
         $imagen = Storage::url($imagen);
+        
+        Imagen::create([
+            'nombre' => $imagen_name, 
+            'url' => substr($imagen, 1), 
+            'tarea_id' => $request->tarea_id
+        ]);
 
         return $imagen_name;
     }

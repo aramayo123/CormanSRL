@@ -27,6 +27,9 @@ class Tarea extends Model
         'fecha_mail',
         'fecha_cerrado',
     ];
+    //protected $casts = [
+    //    'fecha_cerrado' => 'datetime:Y-m-d',
+    //];
     public function Autor(): HasOne
     {
         // llave foreign es el nombre del campo en la tabla actual
@@ -58,5 +61,22 @@ class Tarea extends Model
             return "SI";
         else
             return "NO";
+    }
+    public function ColorTipoTarea(){
+        return $this->tipo_de_tarea == "PREVENTIVO" ? "red":"green";
+    }
+    public function ColorTipoPrioridad(){
+        if(!$this->Prioridad) return "gray";
+
+        return $this->Prioridad->numero == 1 ? "red":($this->Prioridad->numero == 2 ? "pink":"green");
+    }
+    public function ColorEstado(){
+        return $this->Estado->numero == 1 ? "green":($this->Estado->numero == 2 ? "red":"pink");
+    }
+    public function ColorAtm(){
+        if($this->atm)
+            return "red";
+        else
+            return "green";
     }
 }

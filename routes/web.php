@@ -9,6 +9,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Requests\MaterialesGastadosRequest;
 use App\Models\Cliente;
 use App\Models\Estado;
+use App\Models\Imagen;
+use App\Models\Material;
 use App\Models\MaterialGastado;
 use App\Models\Prioridad;
 use App\Models\Sucursal;
@@ -19,7 +21,9 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,8 +54,40 @@ Route::middleware('auth')->group(function () {
         $prioridades = Prioridad::all();
         $estados = Estado::all();
         $users = User::all();
-        return view('index', compact('tareasAsignadas', 'tareas', 'clientes', 'sucursales', 'prioridades', 'users', 'estados'));
+        $materiales = Material::all();
+        $materialesGastados = [];
+        $ra = MaterialGastado::all();
+        foreach($ra as $material){
+            if(!$material->Tarea->fecha_cerrado)
+                continue;
+            
+            $mes = explode("-",$material->Tarea->fecha_cerrado);
+            if($mes[1] == now()->month)
+                array_push($materialesGastados, $material);
+        }
+        $all_tareas = Tarea::whereMonth('fecha_cerrado', now()->month)->where('estado_id', '2')->get();
+
+        $total_correctivos = count(Tarea::whereMonth('fecha_cerrado', now()->month)->where('atm', NULL)->where('estado_id', '2')->get());
+        $total_atm = count(Tarea::whereMonth('fecha_cerrado', now()->month)->where('atm', '1')->where('estado_id', '2')->get());
+        $total_altas = count(Tarea::whereMonth('fecha_cerrado', now()->month)->where('prioridad_id', '1')->where('estado_id', '2')->get());
+        $total_medias = count(Tarea::whereMonth('fecha_cerrado', now()->month)->where('prioridad_id', '2')->where('estado_id', '2')->get());
+        $total_bajas = count(Tarea::whereMonth('fecha_cerrado', now()->month)->where('prioridad_id', '3')->where('estado_id', '2')->get());
+        return view('index', compact(
+            'tareasAsignadas', 
+            'tareas', 'clientes',
+            'sucursales', 'prioridades',
+            'users', 'estados', 
+            'total_correctivos', 
+            'total_atm',
+            'total_altas',
+            'total_medias',
+            'total_bajas',
+            'all_tareas',
+            'materiales',
+            'materialesGastados',
+        ));
     })->name('dashboard');
+   
    
     Route::resource('/clientes', ClienteController::class);
     Route::resource('/users', UserController::class);
@@ -72,6 +108,19 @@ Route::middleware('auth')->group(function () {
     Route::post('/tareas/fotos_boleta', [TareaController::class, 'FotosBoleta']);
     Route::post('/tareas/fotos_ot_combustible', [TareaController::class, 'FotosOtCombustible']);
     Route::post('/tareas/fotos_planilla', [TareaController::class, 'FotosPlanillaPreventivo']);
+    Route::post('/tareas/imagenes', function (Request $request){
+        $imagenes = Imagen::where('tarea_id', $request->tarea_id)->get();
+        return response()->json(['message' => $imagenes]);
+    });
+    Route::post('tareas/eliminar', function (Request $request){
+        $imagen = Imagen::findOrFail($request->imagen_id);
+       
+        if(Storage::exists("public/".substr($imagen->url, 8)))
+            Storage::delete("public/".substr($imagen->url, 8));
+        
+        Imagen::destroy($request->imagen_id);
+        return response()->json(['message' => "exito"]);
+    });
 
     Route::post('/materiales_gastados', [TareaController::class, 'ObtenerMateriales']);  
     

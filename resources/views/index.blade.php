@@ -8,7 +8,6 @@
             </button>
         </h2>
     </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -28,11 +27,11 @@
                         </x-error>
                     @endif
                     @if (Auth::user()->hasRole('Operario'))
-                        @include('tableOperario')
+                        @include('viewOperario')
                     @endif
 
-                    @if (Auth::user()->hasRole('Corman'))
-                        @include('tableCorman')
+                    @if (Auth::user()->hasRole('Corman') || Auth::user()->hasRole('Facilitie'))
+                        @include('viewFacilitie')
                     @endcan
             </div>
         </div>

@@ -4,108 +4,165 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
+    <style>
+        hr {
+            color: #FF5733;
+            border-color: #FF5733;
+        }
+    </style>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 ">
-                    <form action="{{ url('tareas/' . $tarea->id . '/cerrar') }}" method="post" class="max-w-xl mx-auto">
-                        @csrf
-                        <div class="mb-5">
-                            <p class="block mb-2 text-md font-medium text-gray-900 ">Tipo de tarea :
-                                <strong>{{ $tarea->tipo_de_tarea }}</strong>
-                            </p>
-                        </div>
-                        @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
-                            <div class="mb-5 flex gap-2">
-                                <div class="w-8/12">
-                                    <p class="block mb-2 text-md font-medium text-gray-900 ">Remedy nro :
-                                        <strong>{{ $tarea->ticket }}</strong>
-                                    </p>
-                                </div>
-                                <div class="ml-5">
-                                    <p class="block mb-2 text-md font-medium text-gray-900 ">ATM :
-                                        <strong>{{ $tarea->Atm() }}</strong>
-                                    </p>
-                                </div>
-                            </div>
-                        @endif
-                        <div class="mb-5 flex">
-                            <div class="w-1/2">
-                                <p class="block mb-2 text-md font-medium text-gray-900 ">Cliente :
-                                    <strong>{{ $tarea->Cliente->cliente }}</strong>
+                    <div class="max-w-xl mx-auto">
+                        <div class="rounded-xl outline outline-offset-0 outline-1 outline-gray-800 p-5">
+                            <div class="mb-5 ">
+                                <p class="block mb-2 text-md font-medium text-gray-900 ">Tipo de tarea :
+                                    <strong>{{ $tarea->tipo_de_tarea }}</strong>
                                 </p>
+                                <hr>
                             </div>
-                            <div class="w-1/2">
-                                <p class="block mb-2 text-md font-medium text-gray-900 ">Sucursal : <strong>
-                                        {{ $tarea->Sucursal->sucursal }}</strong></p>
+                            @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
+                                <div class="mb-5 flex gap-2">
+                                    <div class="w-8/12">
+                                        <p class="block mb-2 text-md font-medium text-gray-900 ">Remedy nro :
+                                            <strong>{{ $tarea->ticket }}</strong>
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="ml-5">
+                                        <p class="block mb-2 text-md font-medium text-gray-900 ">ATM :
+                                            <strong>{{ $tarea->Atm() }}</strong>
+                                        </p>
+                                        <hr>
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="mb-5 flex">
+                                <div class="w-1/2">
+                                    <p class="block mb-2 text-md font-medium text-gray-900 ">Cliente :
+                                        <strong>{{ $tarea->Cliente->cliente }}</strong>
+                                    </p>
+                                    <hr>
+                                </div>
+                                <div class="w-1/2">
+                                    <p class="block mb-2 text-md font-medium text-gray-900 ">Sucursal : <strong>
+                                            {{ $tarea->Sucursal->sucursal }}</strong></p>
+                                    <hr>
+                                </div>
                             </div>
+                            @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
+                                <div class="mb-5 ocultar">
+                                    <label for="fecha_cerrado"
+                                        class="inline-block mb-2 text-md font-medium text-gray-900 ">Seleccione
+                                        la fecha de cierre : <p class="inline-block text-red-500">*</p></label>
+                                    <input type="date" id="fecha_cerrado" name="fecha_cerrado"
+                                        value="{{ $tarea->fecha_cerrado }}"
+                                        class="hover:cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-md">
+                                    <hr class="mt-2">
+                                </div>
+                                <div class="mb-5 ocultar">
+                                    <p class="block mb-2 text-md font-medium text-gray-900 ">Prioridad : <strong>
+                                            {{ $tarea->Prioridad->prioridad }}</strong></p>
+                                    <hr>
+                                </div>
+                                <div class="mb-5">
+                                    <p class="block mb-2 text-md font-medium text-gray-900 ">Estado :
+                                        <strong>{{ $tarea->Estado->estado }}</strong>
+                                    </p>
+                                    <hr>
+                                </div>
+                            @endif
                         </div>
-                        @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
-                            <div class="mb-5 ocultar">
-                                <label for="fecha_cerrado"
-                                    class="block mb-2 text-md font-medium text-gray-900 ">Seleccione
-                                    la fecha de cierre <p class="inline-block text-red-500">*</p></label>
-                                <input type="date" id="fecha_cerrado" name="fecha_cerrado"
-                                    value="{{ $tarea->fecha_cerrado }}"
-                                    class="hover:cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-md">
-                                <x-mi-input-error :messages="$errors->get('fecha_cerrado')" />
+                        <div class="mt-10 mb-4 rounded-xl outline outline-offset-0 outline-1 outline-gray-800 p-2">
+                            <p
+                                class="block text-md font-medium rounded-full bg-orange-200 text-gray-900 text-center mb-2">
+                                Subir fotos :</p>
+                            @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
+                                <div class="mb-5 flex gap-4 flex-col md:flex-row">
+                                    <button data-modal-target="fotos-antes" data-modal-toggle="fotos-antes"
+                                        class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
+                                        type="button">
+                                        ANTES</button>
+                                    <button data-modal-target="fotos-despues" data-modal-toggle="fotos-despues"
+                                        class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
+                                        type="button">
+                                        DESPUES</button>
+                                    <button data-modal-target="fotos-ot" data-modal-toggle="fotos-ot"
+                                        class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
+                                        type="button">
+                                        OT</button>
+                                    <button data-modal-target="fotos-boleta" data-modal-toggle="fotos-boleta"
+                                        class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
+                                        type="button">
+                                        BOLETAS</button>
+                                </div>
+                            @else
+                                <div class="mb-5 flex gap-4 flex-col md:flex-row">
+                                    <button data-modal-target="fotos-preventivo" data-modal-toggle="fotos-preventivo"
+                                        class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
+                                        type="button">
+                                        PREVENTIVO</button>
+                                    <button data-modal-target="fotos-observaciones"
+                                        data-modal-toggle="fotos-observaciones"
+                                        class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
+                                        type="button">
+                                        OBSERVACIONES</button>
+                                    <button data-modal-target="fotos-boletas" data-modal-toggle="fotos-boletas"
+                                        class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
+                                        type="button">
+                                        BOLETAS</button>
+                                    <button data-modal-target="fotos-ot-combustible"
+                                        data-modal-toggle="fotos-ot-combustible"
+                                        class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
+                                        type="button">
+                                        OT Y COMBUSTIBLE</button>
+                                    <button data-modal-target="fotos-planilla" data-modal-toggle="fotos-planilla"
+                                        class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
+                                        type="button">
+                                        PLANILLA</button>
+                                </div>
+                            @endif
+                            <div class="grid grid-cols-3 gap-4" id="div-imagenes">
+
                             </div>
-                            <div class="mb-5 ocultar">
-                                <p class="block mb-2 text-md font-medium text-gray-900 ">Prioridad : <strong>
-                                        {{ $tarea->Prioridad->prioridad }}</strong></p>
-                            </div>
-                            <div class="mb-5">
-                                <p class="block mb-2 text-md font-medium text-gray-900 ">Estado :
-                                    <strong>{{ $tarea->Estado->estado }}</strong>
-                                </p>
-                            </div>
-                        @endif
-                        <p class="block mb-2 text-md font-medium text-gray-900 ">Subir fotos :</p>
-                        @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
-                            <div class="mb-5 flex gap-4 flex-col md:flex-row">
-                                <button data-modal-target="fotos-antes" data-modal-toggle="fotos-antes"
-                                    class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
-                                    type="button">
-                                    ANTES</button>
-                                <button data-modal-target="fotos-despues" data-modal-toggle="fotos-despues"
-                                    class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
-                                    type="button">
-                                    DESPUES</button>
-                                <button data-modal-target="fotos-ot" data-modal-toggle="fotos-ot"
-                                    class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
-                                    type="button">
-                                    OT</button>
-                                <button data-modal-target="fotos-boleta" data-modal-toggle="fotos-boleta"
-                                    class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
-                                    type="button">
-                                    BOLETAS</button>
-                            </div>
-                        @else
-                            <div class="mb-5 flex gap-4 flex-col md:flex-row">
-                                <button data-modal-target="fotos-preventivo" data-modal-toggle="fotos-preventivo"
-                                    class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
-                                    type="button">
-                                    PREVENTIVO</button>
-                                <button data-modal-target="fotos-observaciones" data-modal-toggle="fotos-observaciones"
-                                    class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
-                                    type="button">
-                                    OBSERVACIONES</button>
-                                <button data-modal-target="fotos-boletas" data-modal-toggle="fotos-boletas"
-                                    class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
-                                    type="button">
-                                    BOLETAS</button>
-                                <button data-modal-target="fotos-ot-combustible"
-                                    data-modal-toggle="fotos-ot-combustible"
-                                    class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
-                                    type="button">
-                                    OT Y COMBUSTIBLE</button>
-                                <button data-modal-target="fotos-planilla" data-modal-toggle="fotos-planilla"
-                                    class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
-                                    type="button">
-                                    PLANILLA</button>
-                            </div>
-                        @endif
+
+                            <section class="hidden bg-gray-50 px-3 sm:px-5 my-3" id="imagen_delete">
+                                <div class="mx-auto max-w-screen-xl ">
+                                    <div class="bg-white relative sm:rounded-lg overflow-hidden">
+                                        <div class="">
+                                            <div id="alert-3"
+                                                class="flex items-center px-4 py-2 text-green-800 rounded-lg bg-green-200"
+                                                role="alert">
+                                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    fill="currentColor" viewBox="0 0 24 24">
+                                                    <path fill-rule="evenodd"
+                                                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm13.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586l-1.793-1.793a1 1 0 0 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l4-4Z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                                <div class="ml-3 text-sm font-medium">
+                                                    <p>Imagen eliminada con exito!</p>
+                                                </div>
+                                                <button type="button"
+                                                    class="ml-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 inline-flex items-center justify-center h-8 w-8 bg-green-200 text-green-800 hover:bg-green-300"
+                                                    data-dismiss-target="#alert-3" aria-label="Close">
+                                                    <span class="sr-only">Close</span>
+                                                    <svg class="w-3 h-3" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 14 14">
+                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2"
+                                                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
                         <div class="mb-5">
                             <section class="bg-gray-50 mb-5 hidden" id="material_eliminado">
                                 <div class="mx-auto max-w-screen-xl ">
@@ -224,17 +281,21 @@
                                 <input type="hidden" id="tarea_id" name="tarea_id" value="{{ $tarea->id }}" />
                                 <div class="text-center mx-auto" onclick="CrearMaterial()">
                                     <button type="button"
-                                        class="py-2.5 px-5 me-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-4 focus:ring-blue-700 bg-blue-800 text-white border-blue-600 hover:text-white hover:bg-blue-700">
+                                        class="py-2.5 px-5 me-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-4 focus:ring-orange-700 bg-orange-300 text-white border-gray-600 hover:text-white hover:bg-orange-400">
                                         AGREGAR PRESUPUESTO
                                     </button>
                                 </div>
                             </div>
                         </div>
                         <div class="mx-auto text-center">
-                            <button type="submit"
-                                class="py-2.5 px-5 me-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-4 focus:ring-blue-700 bg-blue-800 text-white border-blue-600 hover:text-white hover:bg-blue-700">
-                                CERRAR TRABAJO
-                            </button>
+                            <form action="{{ url('tareas/' . $tarea->id . '/cerrar') }}" method="post"
+                                class="inline-block">
+                                @csrf
+                                <button type="submit"
+                                    class="py-2.5 px-5 me-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-4 focus:ring-orange-700 bg-orange-400 text-white border-gray-600 hover:text-white hover:bg-orange-500">
+                                    CERRAR TRABAJO
+                                </button>
+                            </form>
                             <a href="{{ url('/') }}">
                                 <button type="button"
                                     class="py-2.5 px-5 me-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-4 focus:ring-red-700 bg-red-800 text-white border-red-600 hover:text-white hover:bg-red-700">
@@ -242,7 +303,7 @@
                                 </button>
                             </a>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -324,7 +385,7 @@
                 var text_material = document.querySelector("#text-material_id");
                 var text_precio = document.querySelector("#text-precio");
                 var text_cantidad = document.querySelector("#text-cantidad");
-                console.log(data)
+                // console.log(data)
                 if (data.message === "error") {
                     if (data.errors.material_id || data.errors.precio || data.errors.cantidad) {
                         if (data.errors.material_id) {
@@ -386,6 +447,7 @@
                     var registro = data.message;
                     var filas = "";
                     registro.forEach(material => {
+                        //console.log(material)
                         filas += `
                         <tr class="border-b text-gray-900">
                             <th scope="row"
@@ -439,389 +501,159 @@
             getAll()
         }
     </script>
-@if ($tarea->tipo_de_tarea == 'CORRECTIVO')
-    <!-- antes modal -->
-    <div id="fotos-antes" tabindex="-1" aria-hidden="true"
+    @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
+        @include('tareas.modals.fotos-antes')
+        @include('tareas.modals.fotos-despues')
+        @include('tareas.modals.fotos-ot')
+        @include('tareas.modals.fotos-boleta')
+    @else
+        @include('tareas.modals.fotos-preventivo')
+        @include('tareas.modals.fotos-observaciones')
+        @include('tareas.modals.fotos-boletas')
+        @include('tareas.modals.fotos-ot-combustible')
+        @include('tareas.modals.fotos-planilla')
+    @endif
+
+
+    <div id="view-image" tabindex="-1"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-h-full">
-            <!-- Modal content -->
-            <div class="relative rounded-lg shadow bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
-                    <h3 class="text-lg font-semibold text-white">
-                        Subir fotos del antes
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="flex items-center justify-between px-4 pt-4">
+                    <h3 class="text-lg font-semibold text-gray-800" id="imagen-name">
+                       
                     </h3>
                     <button type="button"
                         class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
-                        data-modal-toggle="fotos-antes">
+                        data-modal-toggle="view-image">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
-                        <span class="sr-only">Close modal</span>
                     </button>
                 </div>
-                <!-- Modal body -->
-                <div class="p-4 md:p-5">
-                    <form action="{{ url('/tareas/foto_antes') }}" method="post" enctype="multipart/form-data"
-                        id="imagen-antes" class="dropzone">
-                        @csrf
-                        <input type="hidden" name="ticket" id="ticket" value="{{ $tarea->ticket }}" />
-                        <input type="hidden" name="atm" id="atm" value="{{ $tarea->atm }}" />
-                    </form>
+                <div class="p-4 md:p-5 text-center">
+                    <img src="" alt="" id="imagen-url">
                 </div>
             </div>
         </div>
     </div>
 
-
-    <!-- despues modal -->
-    <div id="fotos-despues" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-h-full">
-            <!-- Modal content -->
-            <div class="relative rounded-lg shadow bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
-                    <h3 class="text-lg font-semibold text-white">
-                        Subir fotos del despues
-                    </h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
-                        data-modal-toggle="fotos-despues">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-4 md:p-5">
-                    <form action="{{ url('/tareas/foto_despues') }}" method="post" enctype="multipart/form-data"
-                        id="imagen-despues" class="dropzone">
-                        @csrf
-                        <input type="hidden" name="ticket" id="ticket" value="{{ $tarea->ticket }}" />
-                        <input type="hidden" name="atm" id="atm" value="{{ $tarea->atm }}" />
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- ot modal -->
-    <div id="fotos-ot" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-h-full">
-            <!-- Modal content -->
-            <div class="relative rounded-lg shadow bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
-                    <h3 class="text-lg font-semibold text-white">
-                        Subir fotos del ot
-                    </h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
-                        data-modal-toggle="fotos-ot">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-4 md:p-5">
-                    <form action="{{ url('/tareas/foto_ot') }}" method="post" enctype="multipart/form-data"
-                        id="imagen-ot" class="dropzone">
-                        @csrf
-                        <input type="hidden" name="ticket" id="ticket" value="{{ $tarea->ticket }}" />
-                        <input type="hidden" name="atm" id="atm" value="{{ $tarea->atm }}" />
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- boleta modal -->
-    <div id="fotos-boleta" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-h-full">
-            <!-- Modal content -->
-            <div class="relative rounded-lg shadow bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
-                    <h3 class="text-lg font-semibold text-white">
-                        Subir fotos de boleta
-                    </h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
-                        data-modal-toggle="fotos-boleta">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-4 md:p-5">
-                    <form action="{{ url('/tareas/foto_boleta') }}" method="post" enctype="multipart/form-data"
-                        id="imagen-boleta" class="dropzone">
-                        @csrf
-                        <input type="hidden" name="ticket" id="ticket" value="{{ $tarea->ticket }}" />
-                        <input type="hidden" name="atm" id="atm" value="{{ $tarea->atm }}" />
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     <script>
-        new Dropzone("#imagen-antes", {
-            maxFilesize: 100,
-            acceptedFiles: "image/*,video/*",
-            dictDefaultMessage: "Arrastra y suelta los archivos aqui o haz click aqui",
-            maxThumbnailFilesize: 200,
-        })
+        function VerImagen(url, nombre) {
+            const imagen_url = document.querySelector("#imagen-url");
+            const imagen_name = document.querySelector("#imagen-name");
+            imagen_url.setAttribute("src", "{{ asset('') }}"+url);
+            imagen_name.innerHTML = nombre;
+        }
 
-        new Dropzone("#imagen-despues", {
-            maxFilesize: 100,
-            acceptedFiles: "image/*,video/*",
-            dictDefaultMessage: "Arrastra y suelta los archivos aqui o haz click aqui",
-            maxThumbnailFilesize: 200,
-        })
+        function Eliminar(e) {
+            Swal.fire({
+                title: "Estas seguro?",
+                text: `Estas a punto de eliminar la imagen `,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const tarea_id = e.children[1].value;
+                    const imagen_id = e.children[2].value;
+                    const Delete = async () => {
+                        try {
+                            const formData = new FormData();
+                            formData.append("tarea_id", tarea_id);
+                            formData.append("imagen_id", imagen_id);
+                            const url = "{{ url('/tareas/eliminar') }}";
+                            const opciones = {
+                                headers: {
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                        .getAttribute(
+                                            'content'),
+                                    'Accept': 'application/json',
+                                },
+                                method: 'POST',
+                                body: formData,
+                            };
+                            const res = await fetch(url, opciones);
+                            const data = await res.json();
+                            //console.log(data)
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Imagen eliminada con exito!",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(function() {
+                                ObtenerImagenes();
+                            }, 1500);
+                        } catch (error) {
+                            console.log(error)
+                        }
+                    }
+                    Delete();
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            ObtenerImagenes()
+        });
 
-        new Dropzone("#imagen-ot", {
-            maxFilesize: 100,
-            acceptedFiles: "image/*,video/*",
-            dictDefaultMessage: "Arrastra y suelta los archivos aqui o haz click aqui",
-            maxThumbnailFilesize: 200,
-        })
+        function ObtenerImagenes() {
+            var div = document.querySelector('#div-imagenes');
+            div.innerHTML = "";
+            const getAll = async () => {
+                try {
+                    const formData = new FormData();
+                    formData.append("tarea_id", tarea.value);
+                    const url = "{{ url('/tareas/imagenes') }}";
+                    const opciones = {
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content'),
+                            'Accept': 'application/json',
+                        },
+                        method: 'POST',
+                        body: formData,
+                    };
+                    const res = await fetch(url, opciones);
+                    const data = await res.json();
+                    //console.log(data.message)
 
-        new Dropzone("#imagen-boleta", {
-            maxFilesize: 100,
-            acceptedFiles: "image/*,video/*",
-            dictDefaultMessage: "Arrastra y suelta los archivos aqui o haz click aqui",
-            maxThumbnailFilesize: 200,
-        })
+                    var registro = data.message;
+                    registro.forEach(imagen => {
+                        //console.log(imagen)
+                        div.innerHTML += `
+                            <div class="border-2 border-solid border-gray-500 text-gray-500 flex gap-2 rounded-xl px-2">
+                                <img src="{{ asset('') }}${imagen.url}" alt="" class="w-6 h-6 rounded-full">
+                                <button type="button" data-modal-target="view-image" data-modal-toggle="view-image" onclick="VerImagen('${imagen.url}','${imagen.nombre}')" class="truncate">
+                                    <p>${imagen.nombre}</p>
+                                </button>
+                                <form action="{{ url('tareas/eliminar') }}" method="post" onclick="Eliminar(this)">
+                                    @csrf
+                                    <input class="hidden" name="tarea_id" value="{{ $tarea->id }}">
+                                    <input class="hidden" name="imagen_id" value="${imagen.id}">
+                                    <button type="button">
+                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            fill="none" viewBox="0 0 14 14">
+                                            <path stroke="currentColor" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-width="2"
+                                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        `;
+                    });
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+            getAll()
+        }
     </script>
-
-@else
-
-    <!-- preventivo modal -->
-    <div id="fotos-preventivo" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-h-full">
-            <!-- Modal content -->
-            <div class="relative rounded-lg shadow bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
-                    <h3 class="text-lg font-semibold text-white">
-                        Subir fotos del preventivo
-                    </h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
-                        data-modal-toggle="fotos-preventivo">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-4 md:p-5">
-                    <form action="{{ url('/tareas/fotos_preventivo') }}" method="post"
-                        enctype="multipart/form-data" id="imagen-preventivo" class="dropzone">
-                        @csrf
-                        <input type="hidden" name="sucursal" id="sucursal" value="{{ $tarea->Sucursal->numero }} {{ $tarea->Sucursal->sucursal }}" />
-                        <input type="hidden" name="mes" id="mes" value="{{ $tarea->fecha_mail }}" />
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- observaciones modal -->
-    <div id="fotos-observaciones" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-h-full">
-            <!-- Modal content -->
-            <div class="relative rounded-lg shadow bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
-                    <h3 class="text-lg font-semibold text-white">
-                        Subir fotos de las observaciones
-                    </h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
-                        data-modal-toggle="fotos-observaciones">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-4 md:p-5">
-                    <form action="{{ url('/tareas/fotos_observaciones') }}" method="post"
-                        enctype="multipart/form-data" id="imagen-observaciones" class="dropzone">
-                        @csrf
-                        <input type="hidden" name="sucursal" id="sucursal" value="{{ $tarea->Sucursal->numero }} {{ $tarea->Sucursal->sucursal }}" />
-                        <input type="hidden" name="mes" id="mes" value="{{ $tarea->fecha_mail }}" />
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- boletas modal -->
-    <div id="fotos-boletas" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-h-full">
-            <!-- Modal content -->
-            <div class="relative rounded-lg shadow bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
-                    <h3 class="text-lg font-semibold text-white">
-                        Subir fotos de las boletas
-                    </h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
-                        data-modal-toggle="fotos-boletas">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-4 md:p-5">
-                    <form action="{{ url('/tareas/fotos_boleta') }}" method="post"
-                        enctype="multipart/form-data" id="imagen-boletas" class="dropzone">
-                        @csrf
-                        <input type="hidden" name="sucursal" id="sucursal" value="{{ $tarea->Sucursal->numero }} {{ $tarea->Sucursal->sucursal }}" />
-                        <input type="hidden" name="mes" id="mes" value="{{ $tarea->fecha_mail }}" />
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ot-combustible modal -->
-    <div id="fotos-ot-combustible" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-h-full">
-            <!-- Modal content -->
-            <div class="relative rounded-lg shadow bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
-                    <h3 class="text-lg font-semibold text-white">
-                        Subir fotos de las ot y combustible
-                    </h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
-                        data-modal-toggle="fotos-ot-combustible">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-4 md:p-5">
-                    <form action="{{ url('/tareas/fotos_ot_combustible') }}" method="post"
-                        enctype="multipart/form-data" id="imagen-ot-combustible" class="dropzone">
-                        @csrf
-                        <input type="hidden" name="sucursal" id="sucursal" value="{{ $tarea->Sucursal->numero }} {{ $tarea->Sucursal->sucursal }}" />
-                        <input type="hidden" name="mes" id="mes" value="{{ $tarea->fecha_mail }}" />
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- planilla modal -->
-    <div id="fotos-planilla" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-h-full">
-            <!-- Modal content -->
-            <div class="relative rounded-lg shadow bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
-                    <h3 class="text-lg font-semibold text-white">
-                        Subir fotos de las planillas
-                    </h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
-                        data-modal-toggle="fotos-planilla">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <!-- Modal body -->
-                <div class="p-4 md:p-5">
-                    <form action="{{ url('/tareas/fotos_planilla') }}" method="post"
-                        enctype="multipart/form-data" id="imagen-planilla" class="dropzone">
-                        @csrf
-                        <input type="hidden" name="sucursal" id="sucursal" value="{{ $tarea->Sucursal->numero }} {{ $tarea->Sucursal->sucursal }}" />
-                        <input type="hidden" name="mes" id="mes" value="{{ $tarea->fecha_mail }}" />
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        new Dropzone("#imagen-preventivo", {
-            maxFilesize: 100,
-            acceptedFiles: "image/*,video/*",
-            dictDefaultMessage: "Arrastra y suelta los archivos aqui o haz click aqui",
-            maxThumbnailFilesize: 200,
-        })
-        new Dropzone("#imagen-observaciones", {
-            maxFilesize: 100,
-            acceptedFiles: "image/*,video/*",
-            dictDefaultMessage: "Arrastra y suelta los archivos aqui o haz click aqui",
-            maxThumbnailFilesize: 200,
-        })
-        new Dropzone("#imagen-boletas", {
-            maxFilesize: 100,
-            acceptedFiles: "image/*,video/*",
-            dictDefaultMessage: "Arrastra y suelta los archivos aqui o haz click aqui",
-            maxThumbnailFilesize: 200,
-        })
-        new Dropzone("#imagen-ot-combustible", {
-            maxFilesize: 100,
-            acceptedFiles: "image/*,video/*",
-            dictDefaultMessage: "Arrastra y suelta los archivos aqui o haz click aqui",
-            maxThumbnailFilesize: 200,
-        })
-        new Dropzone("#imagen-planilla", {
-            maxFilesize: 100,
-            acceptedFiles: "image/*,video/*",
-            dictDefaultMessage: "Arrastra y suelta los archivos aqui o haz click aqui",
-            maxThumbnailFilesize: 200,
-        })
-    </script>
-
-@endif
-    
 
 </x-app-layout>

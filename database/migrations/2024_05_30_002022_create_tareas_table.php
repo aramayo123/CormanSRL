@@ -34,8 +34,8 @@ return new class extends Migration
             $table->foreign('prioridad_id')->references('id')->on('prioridades')->onDelete('set null');
 			$table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->string('fecha_mail')->nullable();
-            $table->string('fecha_cerrado')->nullable();
+            $table->date('fecha_mail')->nullable();
+            $table->date('fecha_cerrado')->nullable();
             $table->timestamps();
         });
     }

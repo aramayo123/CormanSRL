@@ -37,22 +37,21 @@
                 @endcan
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500 ">
+                <table class="w-full text-sm text-left text-gray-500 my-1 mx-1">
                     @if (count($tareas))
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                        <thead class="text-xs text-gray-700 uppercase">
                             <tr>
-                                <th scope="col" class="px-4 py-3">Ticket</th>
-                                <th scope="col" class="px-4 py-3">Tipo de tarea</th>
-                                <th scope="col" class="px-4 py-3">ATM</th>
-                                <th scope="col" class="px-4 py-3">Cliente</th>
-                                <th scope="col" class="px-4 py-3">Sucursal</th>
-                                <th scope="col" class="px-4 py-3">Prioridad</th>
-                                <th scope="col" class="px-4 py-3">Estado</th>
-                                <th scope="col" class="px-4 py-3">Certificado</th>
-                                <th scope="col" class="px-4 py-3">Autor</th>
-                                <th scope="col" class="px-4 py-3">Fecha de creacion</th>
-                                <th scope="col" class="px-4 py-3">
-                                    <span class="sr-only">Acciones</span>
+                                <th scope="col" class="px-4 py-3 rounded-xl outline outline-offset-0 outline-1 outline-gray-800">Ticket</th>
+                                <th scope="col" class="px-4 py-3 rounded-xl text-red-500 bg-red-200 outline outline-offset-0 outline-1 outline-gray-800">Tipo de tarea</th>
+                                <th scope="col" class="px-4 py-3 rounded-xl outline outline-offset-0 outline-1 outline-gray-800">Cliente</th>
+                                <th scope="col" class="px-4 py-3 rounded-xl outline outline-offset-0 outline-1 outline-gray-800">Sucursal</th>
+                                <th scope="col" class="px-4 py-3 rounded-xl text-red-500 bg-red-200 outline outline-offset-0 outline-1 outline-gray-800">Prioridad</th>
+                                <th scope="col" class="px-4 py-3 rounded-xl text-red-500 bg-red-200 outline outline-offset-0 outline-1 outline-gray-800">Estado</th>
+                                <th scope="col" class="px-4 py-3 rounded-xl outline outline-offset-0 outline-1 outline-gray-800">Certificado</th>
+                                <th scope="col" class="px-4 py-3 rounded-xl text-red-500 bg-red-200 outline outline-offset-0 outline-1 outline-gray-800">ATM</th>
+                                <th scope="col" class="px-4 py-3 rounded-xl outline outline-offset-0 outline-1 outline-gray-800">Fecha de cierre</th>
+                                <th scope="col" class="px-4 py-3 rounded-xl outline outline-offset-0 outline-1 outline-gray-800">
+                                    Acciones
                                 </th>
                             </tr>
                         </thead>
@@ -60,23 +59,21 @@
                     <tbody>
                         @forelse ($tareas as $tarea)
                             <tr class="border-b">
-                                <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                                <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap rounded-xl outline outline-offset-0 outline-1 outline-gray-800">
                                     #{{ $tarea->ticket }}</th>
-                                <td class="px-4 py-3">{{ $tarea->tipo_de_tarea }}</td>
-                                <td class="px-4 py-3">{{ $tarea->Atm() }}</td>
-                                <td class="px-4 py-3">{{ $tarea->Cliente->cliente }}</td>
-                                <td class="px-4 py-3">{{ $tarea->Sucursal->sucursal }}</td>
-                                <td class="px-4 py-3"><?php
+                                <td class="px-4 py-3 rounded-xl text-{{ $tarea->ColorTipoTarea() }}-500 bg-{{ $tarea->ColorTipoTarea() }}-200 outline outline-offset-0 outline-1 outline-gray-800">{{ $tarea->tipo_de_tarea }}</td>
+                                <td class="px-4 py-3 rounded-xl outline outline-offset-0 outline-1 outline-gray-800">{{ $tarea->Cliente->cliente }}</td>
+                                <td class="px-4 py-3 rounded-xl outline outline-offset-0 outline-1 outline-gray-800">{{ $tarea->Sucursal->sucursal }}</td>
+                                <td class="px-4 py-3 rounded-xl text-{{ $tarea->ColorTipoPrioridad() }}-500 bg-{{ $tarea->ColorTipoPrioridad() }}-200 rounded-xl outline outline-offset-0 outline-1 outline-gray-800"><?php
                                     echo ($tarea->Prioridad) ? $tarea->Prioridad->prioridad:"-";
                                 ?></td>
-                                <td class="px-4 py-3"><?php
+                                <td class="px-4 py-3 rounded-xl text-{{ $tarea->ColorEstado() }}-500 bg-{{ $tarea->ColorEstado() }}-200 rounded-xl outline outline-offset-0 outline-1 outline-gray-800"><?php
                                     echo ($tarea->Estado) ? $tarea->Estado->estado:"-";
                                 ?></td>
-                                <td class="px-4 py-3">{{ $tarea->Certificado() }}</td>
-                                <td class="px-4 py-3">{{ $tarea->Autor->name }}</td>
-                                <td class="px-4 py-3">{{ $tarea->created_at }}</td>
-                                <td class="px-4 py-3"> </td>
-                                <td class="px-4 py-3 flex items-center justify-center align-items-center">
+                                <td class="px-4 py-3 rounded-xl outline outline-offset-0 outline-1 outline-gray-800">{{ $tarea->Certificado() }}</td>
+                                <td class="px-4 py-3 text-{{ $tarea->ColorAtm() }}-500 bg-{{ $tarea->ColorAtm() }}-200 rounded-xl outline outline-offset-0 outline-1 outline-gray-800">{{ $tarea->Atm() }}</td>
+                                <td class="px-4 py-3 rounded-xl outline outline-offset-0 outline-1 outline-gray-800">{{ $tarea->fecha_cerrado }}</td>
+                                <td class="px-4 py-3 flex items-center justify-center align-items-center rounded-xl outline outline-offset-0 outline-1 outline-gray-800">
                                     <a href="" class="hover:cursor-pointer hover:bg-gray-100">
                                         <svg class="w-6 h-6 text-gray-800" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
