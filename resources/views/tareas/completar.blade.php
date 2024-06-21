@@ -75,8 +75,7 @@
                             @endif
                         </div>
                         <div class="mt-10 mb-4 rounded-xl outline outline-offset-0 outline-1 outline-gray-800 p-2">
-                            <p
-                                class="block text-md font-medium rounded-full bg-orange-200 text-gray-900 text-center mb-2">
+                                <p class="block text-md font-medium rounded-full bg-orange-200 text-gray-900 text-center mb-2">
                                 Subir fotos :</p>
                             @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
                                 <div class="mb-5 flex gap-4 flex-col md:flex-row">
@@ -123,9 +122,7 @@
                                         PLANILLA</button>
                                 </div>
                             @endif
-                            <div class="grid grid-cols-3 gap-4" id="div-imagenes">
-
-                            </div>
+                            <div class="grid grid-cols-3 gap-4" id="div-imagenes"></div>
 
                             <section class="hidden bg-gray-50 px-3 sm:px-5 my-3" id="imagen_delete">
                                 <div class="mx-auto max-w-screen-xl ">
@@ -308,8 +305,10 @@
             </div>
         </div>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            ObtenerImagenes()
             ObtenerMateriales()
         });
 
@@ -500,52 +499,38 @@
             }
             getAll()
         }
-    </script>
-    @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
-        @include('tareas.modals.fotos-antes')
-        @include('tareas.modals.fotos-despues')
-        @include('tareas.modals.fotos-ot')
-        @include('tareas.modals.fotos-boleta')
-    @else
-        @include('tareas.modals.fotos-preventivo')
-        @include('tareas.modals.fotos-observaciones')
-        @include('tareas.modals.fotos-boletas')
-        @include('tareas.modals.fotos-ot-combustible')
-        @include('tareas.modals.fotos-planilla')
-    @endif
 
-
-    <div id="view-image" tabindex="-1"
-        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-md max-h-full">
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <div class="flex items-center justify-between px-4 pt-4">
-                    <h3 class="text-lg font-semibold text-gray-800" id="imagen-name">
-                       
-                    </h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
-                        data-modal-toggle="view-image">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="p-4 md:p-5 text-center">
-                    <img src="" alt="" id="imagen-url">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
         function VerImagen(url, nombre) {
             const imagen_url = document.querySelector("#imagen-url");
             const imagen_name = document.querySelector("#imagen-name");
-            imagen_url.setAttribute("src", "{{ asset('') }}"+url);
+            imagen_url.setAttribute("src", "{{ asset('') }}" + url);
             imagen_name.innerHTML = nombre;
+            
+            const $targetEl = document.getElementById('view-image');// options with default values
+            const options = {
+                placement: 'bottom-right',
+                backdrop: 'dynamic',
+                backdropClasses:
+                    'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+                closable: true,
+                onHide: () => {
+                    console.log('modal is hidden');
+                },
+                onShow: () => {
+                    console.log('modal is shown');
+                },
+                onToggle: () => {
+                    console.log('modal has been toggled');
+                },
+            };
+
+            // instance options object
+            const instanceOptions = {
+                id: 'view-image',
+                override: true
+            };
+            const modal = new Modal($targetEl, options, instanceOptions);
+            modal.show();
         }
 
         function Eliminar(e) {
@@ -598,9 +583,6 @@
                 }
             });
         }
-        document.addEventListener('DOMContentLoaded', function() {
-            ObtenerImagenes()
-        });
 
         function ObtenerImagenes() {
             var div = document.querySelector('#div-imagenes');
@@ -629,7 +611,7 @@
                         div.innerHTML += `
                             <div class="border-2 border-solid border-gray-500 text-gray-500 flex gap-2 rounded-xl px-2">
                                 <img src="{{ asset('') }}${imagen.url}" alt="" class="w-6 h-6 rounded-full">
-                                <button type="button" data-modal-target="view-image" data-modal-toggle="view-image" onclick="VerImagen('${imagen.url}','${imagen.nombre}')" class="truncate">
+                                <button type="button" onclick="VerImagen('${imagen.url}','${imagen.nombre}')" class="truncate">
                                     <p>${imagen.nombre}</p>
                                 </button>
                                 <form action="{{ url('tareas/eliminar') }}" method="post" onclick="Eliminar(this)">
@@ -648,6 +630,7 @@
                             </div>
                         `;
                     });
+
                 } catch (error) {
                     console.log(error)
                 }
@@ -655,5 +638,37 @@
             getAll()
         }
     </script>
-
+    @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
+        @include('tareas.modals.fotos-antes')
+        @include('tareas.modals.fotos-despues')
+        @include('tareas.modals.fotos-ot')
+        @include('tareas.modals.fotos-boleta')
+    @else
+        @include('tareas.modals.fotos-preventivo')
+        @include('tareas.modals.fotos-observaciones')
+        @include('tareas.modals.fotos-boletas')
+        @include('tareas.modals.fotos-ot-combustible')
+        @include('tareas.modals.fotos-planilla')
+    @endif
+    <div id="view-image" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="flex items-center justify-between px-4 pt-4">
+                    <h3 class="text-lg font-semibold text-gray-800" id="imagen-name"></h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
+                        data-modal-toggle="view-image">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="p-4 md:p-5 text-center">
+                    <img src="" alt="" id="imagen-url">
+                </div>
+            </div>
+        </div>
+    </div>
 </x-app-layout>

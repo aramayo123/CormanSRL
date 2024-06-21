@@ -24,6 +24,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use \Madzipper\Zipper;
+use Madnest\Madzipper\Madzipper;
 
 /*
 |--------------------------------------------------------------------------
@@ -121,12 +123,29 @@ Route::middleware('auth')->group(function () {
         Imagen::destroy($request->imagen_id);
         return response()->json(['message' => "exito"]);
     });
+    Route::post('/download', function (Request $request) {
+        if(!Storage::exists("public/$request->folder")){
+            return response()->json([
+                'success' => 'ERROR',
+                'url' => 'La descarga no se pudo completar debido a que la carpeta no contiene archivos.',
+            ]);
+        }
+        $folderPath = $request->folder;
+        $zip = new Madzipper();
+        $zip->make('zips/'.$request->remedit.'.zip')->addDir('storage/'.$folderPath);
+        $url = asset(asset('zips/'.$request->remedit.'.zip'));
+        return response()->json([
+            'success' => 'Archivo ZIP creado y guardado correctamente.',
+            'url' => $url,
+        ]);
+    });
 
     Route::post('/materiales_gastados', [TareaController::class, 'ObtenerMateriales']);  
     
     Route::post('/sucursales/importar', [SucursalController::class, 'CargarExcel']);
     Route::post('/clientes/importar', [ClienteController::class, 'CargarExcel']);
     Route::post('/materiales/importar', [MaterialController::class, 'CargarExcel']); 
+    Route::post('/tareas/importar', [TareaController::class, 'CargarExcel']); 
     
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

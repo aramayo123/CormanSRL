@@ -7,6 +7,7 @@ use App\Http\Requests\FotoCorRequest;
 use App\Http\Requests\FotoPrevRequest;
 use App\Http\Requests\MaterialesGastadosRequest;
 use App\Http\Requests\TareaRequest;
+use App\Imports\TareaImport;
 use App\Models\Cliente;
 use App\Models\Estado;
 use App\Models\Material;
@@ -20,6 +21,7 @@ use App\Models\Imagen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TareaController extends Controller
 {
@@ -148,6 +150,9 @@ class TareaController extends Controller
     public function show($id)
     {
         //
+        $tarea = Tarea::findOrFail($id);
+        $imagenes = Imagen::where('tarea_id', $tarea->id)->get();
+        return view('tareas.show', compact('tarea', 'imagenes'));
     }
 
     /**
@@ -475,5 +480,17 @@ class TareaController extends Controller
                     "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"];
         $mesActual = $meses[intval($mesInt)-1];
         return $mesActual;
+    }
+    public function CargarExcel(Request $request){
+        $request->validate([
+            'archivo' => 'required|mimes:xlsx'
+        ]);
+        try{
+            $file = $request->file('archivo');
+            Excel::import(new TareaImport, $file);
+            return redirect()->route('tareas.index')->with('exito', "Se ha cargado el EXCEL con exito!");
+        }catch(\Exception $e){
+            return redirect()->route('tareas.index')->with('error', $e->getMessage());
+        }
     }
 }
