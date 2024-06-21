@@ -10,6 +10,7 @@
             border-color: #FF5733;
         }
     </style>
+    
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -53,12 +54,13 @@
                             </div>
                             @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
                                 <div class="mb-5 ocultar">
-                                    <label for="fecha_cerrado"
+                                    <label for="fecha_cerrado_1"
                                         class="inline-block mb-2 text-md font-medium text-gray-900 ">Seleccione
                                         la fecha de cierre : <p class="inline-block text-red-500">*</p></label>
-                                    <input type="date" id="fecha_cerrado" name="fecha_cerrado"
+                                    <input type="date" id="fecha_cerrado_1" name=""
                                         value="{{ $tarea->fecha_cerrado }}"
                                         class="hover:cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-md">
+                                    <x-mi-input-error :messages="$errors->get('fecha_cerrado')" />
                                     <hr class="mt-2">
                                 </div>
                                 <div class="mb-5 ocultar">
@@ -287,7 +289,11 @@
                         <div class="mx-auto text-center">
                             <form action="{{ url('tareas/' . $tarea->id . '/cerrar') }}" method="post"
                                 class="inline-block">
+
                                 @csrf
+                                <input type="date" id="fecha_cerrado" name="fecha_cerrado"
+                                        value="{{ $tarea->fecha_cerrado }}"
+                                        class="hidden hover:cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-md">
                                 <button type="submit"
                                     class="py-2.5 px-5 me-2 mb-2 text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-4 focus:ring-orange-700 bg-orange-400 text-white border-gray-600 hover:text-white hover:bg-orange-500">
                                     CERRAR TRABAJO
@@ -307,6 +313,11 @@
     </div>
 
     <script>
+        fecha_cerrado_1 = document.querySelector("#fecha_cerrado_1");
+        fecha_cerrado = document.querySelector("#fecha_cerrado");
+        fecha_cerrado_1.addEventListener("change", function (e){
+            fecha_cerrado.value = fecha_cerrado_1.value;
+        })
         document.addEventListener('DOMContentLoaded', function() {
             ObtenerImagenes()
             ObtenerMateriales()
