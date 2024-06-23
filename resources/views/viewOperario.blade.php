@@ -29,11 +29,9 @@
                             <tr>
                                 <th scope="col" class="px-4 py-3">Ticket</th>
                                 <th scope="col" class="px-4 py-3">Tipo de tarea</th>
-                                <th scope="col" class="px-4 py-3">ATM</th>
                                 <th scope="col" class="px-4 py-3">Cliente</th>
                                 <th scope="col" class="px-4 py-3">Sucursal</th>
-                                <th scope="col" class="px-4 py-3">Prioridad</th>
-                                <th scope="col" class="px-4 py-3">Estado</th>
+                                <th scope="col" class="px-4 py-3 rounded-xl text-red-500 ">Prioridad</th>
                                 <th scope="col" class="px-4 py-3">
                                     <span class="sr-only">Acciones</span>
                                 </th>
@@ -46,14 +44,10 @@
                                 <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
                                     #{{ $tarea->Tarea->ticket }}</th>
                                 <td class="px-4 py-3">{{ $tarea->Tarea->tipo_de_tarea }}</td>
-                                <td class="px-4 py-3">{{ $tarea->Tarea->Atm() }}</td>
                                 <td class="px-4 py-3">{{ $tarea->Tarea->Cliente->cliente }}</td>
                                 <td class="px-4 py-3">{{ $tarea->Tarea->Sucursal->sucursal }}</td>
-                                <td class="px-4 py-3"><?php
-                                echo $tarea->Tarea->Prioridad ? $tarea->Tarea->Prioridad->prioridad : '-';
-                                ?></td>
-                                <td class="px-4 py-3"><?php
-                                echo $tarea->Tarea->Estado ? $tarea->Tarea->Estado->estado : '-';
+                                <td class="px-4 py-3 rounded-xl text-{{ $tarea->Tarea->ColorTipoPrioridad() }}-500 rounded-xl "><?php
+                                    echo ($tarea->Tarea->Prioridad) ? $tarea->Tarea->Prioridad->prioridad:"-";
                                 ?></td>
                                 <td class="px-4 py-3 flex items-center justify-center align-items-center">
                                     <a href="{{ url('tareas/' . $tarea->Tarea->id . '/completar') }}">

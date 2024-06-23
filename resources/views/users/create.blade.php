@@ -41,8 +41,8 @@
                             <p class="inline-block mb-2 text-sm font-medium text-gray-900 ">ROLES: <p class="inline-block text-red-500">*</p></p>
                             @foreach ($roles as $role)
                                 <div class="flex items-center mb-4">
-                                    <input id="default-radio-{{ $role->id }}" type="radio" value="{{ $role->id }}" name="role" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="default-radio-{{ $role->id }}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $role->name }}</label>
+                                    <input id="default-radio-{{ $role->id }}" type="radio" value="{{ $role->id }}" name="role" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                    <label for="default-radio-{{ $role->id }}" class="ms-2 text-sm font-medium text-gray-900">{{ $role->name }}</label>
                                 </div>
                             @endforeach                           
                         </div>

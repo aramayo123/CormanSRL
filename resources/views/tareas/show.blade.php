@@ -1,9 +1,12 @@
+<?php
+    use App\Models\TareaAsignada;
+?>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Ver tarea') }}
             <button id="theme-toggle" type="button"
-                class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm px-1">
+                class="text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 rounded-lg text-sm px-1">
                 <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
@@ -53,33 +56,29 @@
                                 <hr>
                             </div>
                             @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
-                                <div class="mb-5 flex gap-2">
-                                    <div class="w-8/12">
-                                        <p class="block mb-2 text-md font-medium text-gray-900 ">Remedy nro :
-                                            <strong>{{ $tarea->ticket }}</strong>
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="ml-5">
-                                        <p class="block mb-2 text-md font-medium text-gray-900 ">ATM :
-                                            <strong>{{ $tarea->Atm() }}</strong>
-                                        </p>
-                                        <hr>
-                                    </div>
-                                </div>
-                            @endif
-                            <div class="mb-5 flex">
-                                <div class="w-1/2">
-                                    <p class="block mb-2 text-md font-medium text-gray-900 ">Cliente :
-                                        <strong>{{ $tarea->Cliente->cliente }}</strong>
+                                <div class="mb-5">
+                                    <p class="block mb-2 text-md font-medium text-gray-900 ">Remedy nro :
+                                        <strong>{{ $tarea->ticket }}</strong>
                                     </p>
                                     <hr>
                                 </div>
-                                <div class="w-1/2">
-                                    <p class="block mb-2 text-md font-medium text-gray-900 ">Sucursal : <strong>
-                                            {{ $tarea->Sucursal->sucursal }}</strong></p>
+                                <div class="mb-5">
+                                    <p class="block mb-2 text-md font-medium text-gray-900 ">ATM :
+                                        <strong>{{ $tarea->Atm() }}</strong>
+                                    </p>
                                     <hr>
                                 </div>
+                            @endif
+                            <div class="mb-5">
+                                <p class="inline-block mb-2 text-md font-medium text-gray-900 ">Cliente :
+                                    <strong>{{ $tarea->Cliente->cliente }}</strong>
+                                </p>
+                                <hr>
+                            </div>
+                            <div class="mb-5">
+                                <p class="inline-block mb-2 text-md font-medium text-gray-900 ">Sucursal : <strong>
+                                        {{ $tarea->Sucursal->sucursal }}</strong></p>
+                                <hr>
                             </div>
                             @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
                                 <div class="mb-5 ocultar">
@@ -129,33 +128,52 @@
                             <div class="mb-5 grid w-full sm:w-2/3 mx-auto ">
                                 <p class="block my-2 text-md font-medium text-gray-900">Descripcion del pedido: </p>
                                 <textarea id="descripcion" rows="4"
-                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> {{ $tarea->descripcion }} </textarea>
+                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"> {{ $tarea->descripcion }} </textarea>
                             </div>
 
                             <div class="mb-5 grid w-full sm:w-2/3 mx-auto ">
                                 <p class="block my-2 text-md font-medium text-gray-900">Elementos afectados: </p>
                                 <textarea id="elementos" rows="4"
-                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> {{ $tarea->elementos }} </textarea>
+                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"> {{ $tarea->elementos }} </textarea>
                             </div>
 
                             <div class="mb-5 grid w-full sm:w-2/3 mx-auto ">
                                 <p class="block my-2 text-md font-medium text-gray-900">Diagnostico de la situacion :
                                 </p>
                                 <textarea id="diagnostico" rows="4"
-                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> {{ $tarea->diagnostico }} </textarea>
+                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"> {{ $tarea->diagnostico }} </textarea>
                             </div>
 
                             <div class="mb-5 grid w-full sm:w-2/3 mx-auto ">
                                 <p class="block my-2 text-md font-medium text-gray-900">Acciones ejecutadas : </p>
                                 <textarea id="acciones" rows="4"
-                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> {{ $tarea->acciones }} </textarea>
+                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"> {{ $tarea->acciones }} </textarea>
                             </div>
 
                             <div class="mb-5 grid w-full sm:w-2/3 mx-auto ">
                                 <p class="block my-2 text-md font-medium text-gray-900">Observaciones : </p>
                                 <textarea id="observaciones" rows="4"
-                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> {{ $tarea->observaciones }} </textarea>
+                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"> {{ $tarea->observaciones }} </textarea>
                             </div>
+                            <div class="mb-5 grid w-full sm:w-2/3 mx-auto ">
+                                <p>Personal asignado :</p>
+                                <?php $personal_asignado = 0; ?>
+                                @foreach ($users as $user)
+                                    @if (!$user->hasRole('Corman') && !$user->hasRole('Facilitie'))
+                                        @if (count(TareaAsignada::where('tarea_id', '=', $tarea->id)->where('user_id', '=', $user->id)->get()))
+                                            <?php $personal_asignado++; ?>
+                                            <div class="flex items-center ps-4 border border-gray-400 rounded">
+                                                <input {{ count(TareaAsignada::where('tarea_id', '=', $tarea->id)->where('user_id', '=', $user->id)->get()) ? "checked":"" }} disabled id="{{ $user->username }}" type="checkbox" value="1" name="{{ $user->username }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 ">
+                                                <label for="{{ $user->username }}" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 ">{{ $user->username }}</label>
+                                            </div>
+                                        @endif
+                                    @endif
+                                @endforeach    
+                                @if (!$personal_asignado)
+                                    <p>Sin personal asignado </p>
+                                @endif
+                            </div>
+
                             <div class="mx-auto text-center">
                                 <form action="{{ url('/download') }}" method="post" id="form-ticket">
                                     @csrf
@@ -281,7 +299,7 @@
                             });
                             setTimeout(function() {
                                 ObtenerImagenes();
-                            }, 1500);
+                            }, 500);
                         } catch (error) {
                             console.log(error)
                         }
@@ -291,26 +309,86 @@
             });
         }
 
+        function CerrarViewImage(){
+            const $targetEl = document.getElementById('view-image');// options with default values
+            const options = {
+                placement: 'bottom-right',
+                backdrop: 'dynamic',
+                backdropClasses:
+                    'bg-gray-900/50 fixed inset-0 z-40',
+                closable: true,
+                onHide: () => {
+                    //console.log('modal is hidden');
+                },
+                onShow: () => {
+                    //console.log('modal is shown');
+                },
+                onToggle: () => {
+                    //console.log('modal has been toggled');
+                },
+            };
+
+            // instance options object
+            const instanceOptions = {
+                id: 'view-image',
+                override: true
+            };
+            const modal = new Modal($targetEl, options, instanceOptions);
+            modal.hide();
+        }
         function VerImagen(url, nombre) {
             const imagen_url = document.querySelector("#imagen-url");
             const imagen_name = document.querySelector("#imagen-name");
             imagen_url.setAttribute("src", "{{ asset('') }}" + url);
             imagen_name.innerHTML = nombre;
-
-            const $targetEl = document.getElementById('view-image'); // options with default values
+            
+            const $targetEl = document.getElementById('view-image');// options with default values
             const options = {
                 placement: 'bottom-right',
                 backdrop: 'dynamic',
-                backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+                backdropClasses:
+                    'bg-gray-900/50 fixed inset-0 z-40',
                 closable: true,
                 onHide: () => {
-                    console.log('modal is hidden');
+                   // console.log('modal is hidden');
                 },
                 onShow: () => {
-                    console.log('modal is shown');
+                    //console.log('modal is shown');
                 },
                 onToggle: () => {
-                    console.log('modal has been toggled');
+                    //console.log('modal has been toggled');
+                },
+            };
+
+            // instance options object
+            const instanceOptions = {
+                id: 'view-image',
+                override: true
+            };
+            const modal = new Modal($targetEl, options, instanceOptions);
+            modal.show();
+        }
+        function VerImagen(url, nombre) {
+            const imagen_url = document.querySelector("#imagen-url");
+            const imagen_name = document.querySelector("#imagen-name");
+            imagen_url.setAttribute("src", "{{ asset('') }}" + url);
+            imagen_name.innerHTML = nombre;
+            
+            const $targetEl = document.getElementById('view-image');// options with default values
+            const options = {
+                placement: 'bottom-right',
+                backdrop: 'dynamic',
+                backdropClasses:
+                    'bg-gray-900/50 fixed inset-0 z-40',
+                closable: true,
+                onHide: () => {
+                   // console.log('modal is hidden');
+                },
+                onShow: () => {
+                    //console.log('modal is shown');
+                },
+                onToggle: () => {
+                    //console.log('modal has been toggled');
                 },
             };
 
@@ -383,4 +461,28 @@
 
         }
     </script>
+    <button data-modal-target="view-image" data-modal-toggle="view-image" type="button" class="hidden ">
+
+    </button>
+    <div id="view-image" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow ">
+                <div class="flex items-center justify-between px-4 pt-4">
+                    <h3 class="text-lg font-semibold text-gray-800" id="imagen-name"></h3>
+                    <button type="button" onclick="CerrarViewImage()"
+                        class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
+                        data-modal-toggle="view-image">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="p-4 md:p-5 text-center">
+                    <img src="" alt="" id="imagen-url">
+                </div>
+            </div>
+        </div>
+    </div>
 </x-app-layout>

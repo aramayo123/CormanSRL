@@ -24,33 +24,29 @@
                                 <hr>
                             </div>
                             @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
-                                <div class="mb-5 flex gap-2">
-                                    <div class="w-8/12">
-                                        <p class="block mb-2 text-md font-medium text-gray-900 ">Remedy nro :
-                                            <strong>{{ $tarea->ticket }}</strong>
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="ml-5">
-                                        <p class="block mb-2 text-md font-medium text-gray-900 ">ATM :
-                                            <strong>{{ $tarea->Atm() }}</strong>
-                                        </p>
-                                        <hr>
-                                    </div>
-                                </div>
-                            @endif
-                            <div class="mb-5 flex">
-                                <div class="w-1/2">
-                                    <p class="block mb-2 text-md font-medium text-gray-900 ">Cliente :
-                                        <strong>{{ $tarea->Cliente->cliente }}</strong>
+                                <div class="mb-5">
+                                    <p class="block mb-2 text-md font-medium text-gray-900 ">Remedy nro :
+                                        <strong>{{ $tarea->ticket }}</strong>
                                     </p>
                                     <hr>
                                 </div>
-                                <div class="w-1/2">
-                                    <p class="block mb-2 text-md font-medium text-gray-900 ">Sucursal : <strong>
-                                            {{ $tarea->Sucursal->sucursal }}</strong></p>
+                                <div class="mb-5">
+                                    <p class="block mb-2 text-md font-medium text-gray-900 ">ATM :
+                                        <strong>{{ $tarea->Atm() }}</strong>
+                                    </p>
                                     <hr>
                                 </div>
+                            @endif
+                            <div class="mb-5">
+                                <p class="inline-block mb-2 text-md font-medium text-gray-900 ">Cliente :
+                                    <strong>{{ $tarea->Cliente->cliente }}</strong>
+                                </p>
+                                <hr>
+                            </div>
+                            <div class="mb-5">
+                                <p class="inline-block mb-2 text-md font-medium text-gray-900 ">Sucursal : <strong>
+                                        {{ $tarea->Sucursal->sucursal }}</strong></p>
+                                <hr>
                             </div>
                             @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
                                 <div class="mb-5 ocultar">
@@ -71,6 +67,12 @@
                                 <div class="mb-5">
                                     <p class="block mb-2 text-md font-medium text-gray-900 ">Estado :
                                         <strong>{{ $tarea->Estado->estado }}</strong>
+                                    </p>
+                                    <hr>
+                                </div>
+                                <div class="mb-5">
+                                    <p class="block mb-2 text-md font-medium text-gray-900 ">Descripcion ded pedido :
+                                        <strong>{{ $tarea->descripcion }}</strong>
                                     </p>
                                     <hr>
                                 </div>
@@ -133,7 +135,7 @@
                                             <div id="alert-3"
                                                 class="flex items-center px-4 py-2 text-green-800 rounded-lg bg-green-200"
                                                 role="alert">
-                                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                                <svg class="w-6 h-6 text-gray-800 " aria-hidden="true"
                                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     fill="currentColor" viewBox="0 0 24 24">
                                                     <path fill-rule="evenodd"
@@ -510,7 +512,33 @@
             }
             getAll()
         }
+        function CerrarViewImage(){
+            const $targetEl = document.getElementById('view-image');// options with default values
+            const options = {
+                placement: 'bottom-right',
+                backdrop: 'dynamic',
+                backdropClasses:
+                    'bg-gray-900/50 fixed inset-0 z-40',
+                closable: true,
+                onHide: () => {
+                    //console.log('modal is hidden');
+                },
+                onShow: () => {
+                    //console.log('modal is shown');
+                },
+                onToggle: () => {
+                    //console.log('modal has been toggled');
+                },
+            };
 
+            // instance options object
+            const instanceOptions = {
+                id: 'view-image',
+                override: true
+            };
+            const modal = new Modal($targetEl, options, instanceOptions);
+            modal.hide();
+        }
         function VerImagen(url, nombre) {
             const imagen_url = document.querySelector("#imagen-url");
             const imagen_name = document.querySelector("#imagen-name");
@@ -522,16 +550,16 @@
                 placement: 'bottom-right',
                 backdrop: 'dynamic',
                 backdropClasses:
-                    'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+                    'bg-gray-900/50 fixed inset-0 z-40',
                 closable: true,
                 onHide: () => {
-                    console.log('modal is hidden');
+                   // console.log('modal is hidden');
                 },
                 onShow: () => {
-                    console.log('modal is shown');
+                    //console.log('modal is shown');
                 },
                 onToggle: () => {
-                    console.log('modal has been toggled');
+                    //console.log('modal has been toggled');
                 },
             };
 
@@ -581,7 +609,7 @@
                                 icon: "success",
                                 title: "Imagen eliminada con exito!",
                                 showConfirmButton: false,
-                                timer: 1500
+                                timer: 500
                             });
                             setTimeout(function() {
                                 ObtenerImagenes();
@@ -661,12 +689,15 @@
         @include('tareas.modals.fotos-ot-combustible')
         @include('tareas.modals.fotos-planilla')
     @endif
+    <button data-modal-target="view-image" data-modal-toggle="view-image" type="button" class="hidden ">
+
+    </button>
     <div id="view-image" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div class="relative bg-white rounded-lg shadow">
                 <div class="flex items-center justify-between px-4 pt-4">
                     <h3 class="text-lg font-semibold text-gray-800" id="imagen-name"></h3>
-                    <button type="button"
+                    <button type="button" onclick="CerrarViewImage()"
                         class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
                         data-modal-toggle="view-image">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"

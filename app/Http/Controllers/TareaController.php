@@ -152,7 +152,8 @@ class TareaController extends Controller
         //
         $tarea = Tarea::findOrFail($id);
         $imagenes = Imagen::where('tarea_id', $tarea->id)->get();
-        return view('tareas.show', compact('tarea', 'imagenes'));
+        $users = User::all();
+        return view('tareas.show', compact('tarea', 'imagenes', 'users'));
     }
 
     /**
@@ -408,7 +409,7 @@ class TareaController extends Controller
         else
             $imagen_name = time().'_'.$file->getClientOriginalName();
         
-        $imagen = $file->storeAs('public/'.$carpeta_local, $imagen_name);    
+        $imagen = $file->storeAs($carpeta_local, $imagen_name, 'public');    
         $imagen = Storage::url($imagen);
 
         Imagen::create([

@@ -95,11 +95,11 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('DASHBOARD') }}
             </x-responsive-nav-link>
             @can('users.index')
                 <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users*')">
-                    {{ __('Usuarios') }}
+                    {{ __('USUARIOS') }}
                 </x-responsive-nav-link>
             @endcan
             @can('tareas.index')

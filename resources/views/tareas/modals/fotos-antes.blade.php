@@ -35,7 +35,7 @@
  </div>
  <script>
      new Dropzone("#imagen-antes", {
-        maxFilesize: 100,
+        maxFilesize: 10000,
         acceptedFiles: "image/*,video/*",
         dictDefaultMessage: "Arrastra y suelta los archivos aqui o haz click aqui",
         maxThumbnailFilesize: 200,
