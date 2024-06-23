@@ -462,7 +462,7 @@ class TareaController extends Controller
         $carpeta = "PLANILLA PREVENTIVOS/".$mesActual."/".$request->sucursal."/".$subcarpeta;
         $file = $request->file($input_file);
         $imagen_name = time().'_'.$file->getClientOriginalName();
-        $imagen = $file->storeAs('public/'.$carpeta, time().'_'.$file->getClientOriginalName());
+        $imagen = $file->storeAs($carpeta, time().'_'.$file->getClientOriginalName(), 'public');
         $imagen = Storage::url($imagen);
         
         Imagen::create([

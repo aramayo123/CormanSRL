@@ -57,7 +57,7 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                                 <option selected value="">Ninguna seleccion</option>
                                 @foreach ($sucursales as $sucursal)
-                                    <option value="{{ $sucursal->id }}" <?php echo old('sucursal_id') == $sucursal->id ? 'selected' : ''; ?>> {{ $sucursal->sucursal }}
+                                    <option value="{{ $sucursal->id }}" <?php echo old('sucursal_id') == $sucursal->id ? 'selected' : ''; ?>> {{ $sucursal->numero . " " .$sucursal->sucursal }}
                                     </option>
                                 @endforeach
                             </select>
@@ -85,7 +85,7 @@
                         </div>
                         <div class="mb-5">
                             <label for="fecha_mail" class="block mb-2 text-sm font-medium text-gray-900 ">Seleccione la
-                                fecha del mail <p class="inline-block text-gray-500">(opcional si es correctivo)</p></label>
+                                fecha del mail <p class="inline-block text-gray-500">(obligatorio si es preventivo)</p></label>
                             <input type="date" id="fecha_mail" name="fecha_mail" value="{{ old('fecha_mail') }}"
                                 class="hover:cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-md">
                             <x-mi-input-error :messages="$errors->get('fecha_mail')" />

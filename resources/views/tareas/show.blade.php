@@ -77,7 +77,7 @@
                             </div>
                             <div class="mb-5">
                                 <p class="inline-block mb-2 text-md font-medium text-gray-900 ">Sucursal : <strong>
-                                        {{ $tarea->Sucursal->sucursal }}</strong></p>
+                                    {{ $tarea->Sucursal->numero . " " .$tarea->Sucursal->sucursal }}</strong></p>
                                 <hr>
                             </div>
                             @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
@@ -173,7 +173,8 @@
                                     <p>Sin personal asignado </p>
                                 @endif
                             </div>
-
+                            <div id="table_material" class="mb-5 mx-auto text-center w-full sm:w-2/3">
+                            </div>
                             <div class="mx-auto text-center">
                                 <form action="{{ url('/download') }}" method="post" id="form-ticket">
                                     @csrf
@@ -202,6 +203,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             ObtenerImagenes()
+            ObtenerMateriales()
         });
         var tarea = document.querySelector("#tarea_id");
 
@@ -460,6 +462,67 @@
                 });
 
         }
+
+        function ObtenerMateriales() {
+            var tabla = document.querySelector('#table_material');
+            tabla.innerHTML = "";
+            const getAll = async () => {
+                try {
+                    const formData = new FormData();
+                    formData.append("tarea_id", tarea.value);
+                    const url = "{{ url('materiales_gastados') }}";
+                    const opciones = {
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content'),
+                            'Accept': 'application/json',
+                        },
+                        method: 'POST',
+                        body: formData,
+                    };
+                    const res = await fetch(url, opciones);
+                    const data = await res.json();
+                    //console.log(data.message)
+
+                    var registro = data.message;
+                    var filas = "";
+                    registro.forEach(material => {
+                        //console.log(material)
+                        filas += `
+                        <tr class="border-b text-gray-900">
+                            <th scope="row"
+                                class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">${ material.nombre_material}</th>
+                            <td class="px-1 py-1">$${ material.precio}</td>
+                            <td class="px-1 py-1">${ material.cantidad}</td>
+                        </tr>
+                        `;
+                    });
+
+                    var principal = `
+                        <div class="overflow-x-auto bg-white relative border-solid border border-gray-300 rounded-lg sm:rounded-lg overflow-hidden">
+                            <table class="w-full text-sm text-left text-gray-500 ">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3">Material</th>
+                                        <th scope="col" class="px-1 py-1">Precio</th>
+                                        <th scope="col" class="px-1 py-1">Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${filas}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                    if (registro.length)
+                        tabla.innerHTML = principal;
+
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+            getAll()
+        }
     </script>
     <button data-modal-target="view-image" data-modal-toggle="view-image" type="button" class="hidden ">
 
@@ -468,7 +531,7 @@
         <div class="relative p-4 w-full max-w-md max-h-full">
             <div class="relative bg-white rounded-lg shadow ">
                 <div class="flex items-center justify-between px-4 pt-4">
-                    <h3 class="text-lg font-semibold text-gray-800" id="imagen-name"></h3>
+                    <h3 class="text-lg font-semibold text-gray-800 truncate w-11/12" id="imagen-name"></h3>
                     <button type="button" onclick="CerrarViewImage()"
                         class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
                         data-modal-toggle="view-image">

@@ -101,9 +101,12 @@
     $("#tipo_de_material").chosen().change( function (event){
         var material_id = event.target.value;
         var total = 0;
+        //console.log(materials_gast)
         materials_gast.forEach(material => {
-            if(material.material_id == material_id)
-                total += material.cantidad
+            if(material.material_id == material_id){
+                total += parseInt(material.cantidad, 10);
+                //console.log(total + " con el material id nro: " + material.material_id)
+            }
         });
         trabajos_material.innerHTML = total;
     } )

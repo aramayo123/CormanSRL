@@ -61,7 +61,7 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                                 <option value="">Ninguna seleccion</option>
                                 @foreach ($sucursales as $sucursal)
-                                    <option value="{{ $sucursal->id }}" <?php echo $tarea->sucursal_id == $sucursal->id ? 'selected' : ''; ?>> {{ $sucursal->sucursal }}
+                                    <option value="{{ $sucursal->id }}" <?php echo $tarea->sucursal_id == $sucursal->id ? 'selected' : ''; ?>> {{ $sucursal->numero . " " .$sucursal->sucursal }}
                                     </option>
                                 @endforeach
                             </select>

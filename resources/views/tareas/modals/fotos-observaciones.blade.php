@@ -42,9 +42,9 @@
          dictDefaultMessage: "Arrastra y suelta los archivos aqui o haz click aqui",
          maxThumbnailFilesize: 200,
          success(file) {
-             if (file.previewElement) {
-                 ObtenerImagenes()
-                 return file.previewElement.classList.add("dz-success");
+            if (file.previewElement) {
+                ObtenerImagenes()
+                return file.previewElement.classList.add("dz-success");
              }
          },
      })

@@ -45,7 +45,7 @@
                             </div>
                             <div class="mb-5">
                                 <p class="inline-block mb-2 text-md font-medium text-gray-900 ">Sucursal : <strong>
-                                        {{ $tarea->Sucursal->sucursal }}</strong></p>
+                                        {{ $tarea->Sucursal->numero . " " .$tarea->Sucursal->sucursal }}</strong></p>
                                 <hr>
                             </div>
                             @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
@@ -265,19 +265,6 @@
                                         </svg>
                                         <div class="ml-3 text-sm font-medium" id="text-precio"></div>
                                     </div>
-                                    <div id="mensaje-exito"
-                                        class="hidden flex items-center my-2 text-green-800 rounded-lg mt-5"
-                                        role="alert">
-                                        <svg class="w-6 h-6 text-gray-800" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            fill="currentColor" viewBox="0 0 24 24">
-                                            <path fill-rule="evenodd"
-                                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm13.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586l-1.793-1.793a1 1 0 0 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l4-4Z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                        <div class="ml-3 text-sm font-medium">El material ha sido agregado con exito!
-                                        </div>
-                                    </div>
                                 </div>
                                 <input type="hidden" id="tarea_id" name="tarea_id" value="{{ $tarea->id }}" />
                                 <div class="text-center mx-auto" onclick="CrearMaterial()">
@@ -317,9 +304,11 @@
     <script>
         fecha_cerrado_1 = document.querySelector("#fecha_cerrado_1");
         fecha_cerrado = document.querySelector("#fecha_cerrado");
-        fecha_cerrado_1.addEventListener("change", function (e){
-            fecha_cerrado.value = fecha_cerrado_1.value;
-        })
+        if(fecha_cerrado_1)
+            fecha_cerrado_1.addEventListener("change", function (e){
+                if(fecha_cerrado)
+                    fecha_cerrado.value = fecha_cerrado_1.value;
+            })
         document.addEventListener('DOMContentLoaded', function() {
             ObtenerImagenes()
             ObtenerMateriales()
@@ -419,14 +408,16 @@
                     error_material.classList.add("hidden");
                     error_precio.classList.add("hidden");
                     error_cantidad.classList.add("hidden");
-                    mensaje_exito = document.querySelector("#mensaje-exito");
-                    mensaje_exito.classList.remove("hidden");
                     material.value = "";
                     cantidad.value = "";
                     precio.value = "";
-                    setTimeout(function() {
-                        mensaje_exito.classList.add("hidden");
-                    }, 3000);
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Presupuesto agregado con exito!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                     ObtenerMateriales();
                     return
                 }
@@ -609,11 +600,11 @@
                                 icon: "success",
                                 title: "Imagen eliminada con exito!",
                                 showConfirmButton: false,
-                                timer: 500
+                                timer: 1500
                             });
                             setTimeout(function() {
                                 ObtenerImagenes();
-                            }, 1500);
+                            }, 500);
                         } catch (error) {
                             console.log(error)
                         }
@@ -696,7 +687,7 @@
         <div class="relative p-4 w-full max-w-md max-h-full">
             <div class="relative bg-white rounded-lg shadow">
                 <div class="flex items-center justify-between px-4 pt-4">
-                    <h3 class="text-lg font-semibold text-gray-800" id="imagen-name"></h3>
+                    <h3 class="text-lg font-semibold text-gray-800 truncate w-11/12" id="imagen-name"></h3>
                     <button type="button" onclick="CerrarViewImage()"
                         class="text-gray-400 bg-transparent rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white"
                         data-modal-toggle="view-image">
