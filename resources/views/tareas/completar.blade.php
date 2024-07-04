@@ -82,15 +82,11 @@
                                 <p class="block text-md font-medium rounded-full bg-orange-200 text-gray-900 text-center mb-2">
                                 Subir fotos :</p>
                             @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
-                                <div class="mb-5 flex gap-4 flex-col md:flex-row">
-                                    <button data-modal-target="fotos-antes" data-modal-toggle="fotos-antes"
+                                <div class="mb-5 grid grid-cols-1 sm:grid-cols-3 gap-7">
+                                    <button data-modal-target="fotos-trabajo" data-modal-toggle="fotos-trabajo"
                                         class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
                                         type="button">
-                                        ANTES</button>
-                                    <button data-modal-target="fotos-despues" data-modal-toggle="fotos-despues"
-                                        class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
-                                        type="button">
-                                        DESPUES</button>
+                                        TRABAJO</button>
                                     <button data-modal-target="fotos-ot" data-modal-toggle="fotos-ot"
                                         class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
                                         type="button">
@@ -101,25 +97,11 @@
                                         BOLETAS</button>
                                 </div>
                             @else
-                                <div class="mb-5 flex gap-4 flex-col md:flex-row">
+                                <div class="mb-5 grid grid-cols-1 sm:grid-cols-2 gap-7">
                                     <button data-modal-target="fotos-preventivo" data-modal-toggle="fotos-preventivo"
                                         class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
                                         type="button">
                                         PREVENTIVO</button>
-                                    <button data-modal-target="fotos-observaciones"
-                                        data-modal-toggle="fotos-observaciones"
-                                        class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
-                                        type="button">
-                                        OBSERVACIONES</button>
-                                    <button data-modal-target="fotos-boletas" data-modal-toggle="fotos-boletas"
-                                        class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
-                                        type="button">
-                                        BOLETAS</button>
-                                    <button data-modal-target="fotos-ot-combustible"
-                                        data-modal-toggle="fotos-ot-combustible"
-                                        class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
-                                        type="button">
-                                        OT Y COMBUSTIBLE</button>
                                     <button data-modal-target="fotos-planilla" data-modal-toggle="fotos-planilla"
                                         class="md:mx-auto text-center block text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 bg-orange-400 hover:bg-orange-500 focus:ring-orange-800"
                                         type="button">
@@ -249,7 +231,7 @@
                                 </div>
                                 <div class="mb-5">
                                     <label for="precio"
-                                        class="block mb-2 text-sm font-medium text-gray-900 ">Precio: <p
+                                        class="block mb-2 text-sm font-medium text-gray-900 ">Precio  <p class="inline-block text-gray-500">(redondear decimales)</p>: <p
                                             class="inline-block text-red-500">*</p> </label>
                                     <input type="number" id="precio" name="precio"
                                         class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -453,8 +435,7 @@
                         //console.log(material)
                         filas += `
                         <tr class="border-b text-gray-900">
-                            <th scope="row"
-                                class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">${ material.nombre_material}</th>
+                            <th scope="row" class="px-4 py-3 ">${ material.nombre_material}</th>
                             <td class="px-1 py-1">$${ material.precio}</td>
                             <td class="px-1 py-1">${ material.cantidad}</td>
                             <td>
@@ -616,7 +597,6 @@
 
         function ObtenerImagenes() {
             var div = document.querySelector('#div-imagenes');
-            div.innerHTML = "";
             const getAll = async () => {
                 try {
                     const formData = new FormData();
@@ -634,8 +614,8 @@
                     const res = await fetch(url, opciones);
                     const data = await res.json();
                     //console.log(data.message)
-
                     var registro = data.message;
+                    div.innerHTML = "";
                     registro.forEach(imagen => {
                         //console.log(imagen)
                         div.innerHTML += `
@@ -669,15 +649,11 @@
         }
     </script>
     @if ($tarea->tipo_de_tarea == 'CORRECTIVO')
-        @include('tareas.modals.fotos-antes')
-        @include('tareas.modals.fotos-despues')
+        @include('tareas.modals.fotos-trabajo')
         @include('tareas.modals.fotos-ot')
         @include('tareas.modals.fotos-boleta')
     @else
         @include('tareas.modals.fotos-preventivo')
-        @include('tareas.modals.fotos-observaciones')
-        @include('tareas.modals.fotos-boletas')
-        @include('tareas.modals.fotos-ot-combustible')
         @include('tareas.modals.fotos-planilla')
     @endif
     <button data-modal-target="view-image" data-modal-toggle="view-image" type="button" class="hidden ">

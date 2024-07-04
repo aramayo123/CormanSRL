@@ -91,7 +91,7 @@ class SucursalController extends Controller
         $sucursal->sucursal = $request->sucursal;
         $sucursal->direccion = $request->direccion;
         $sucursal->update();
-        return redirect()->route('sucursal.index')->with('exito', "La sucursal ha sido actualizada con exito!");
+        return redirect()->route('sucursales.index')->with('exito', "La sucursal ha sido actualizada con exito!");
     }
 
     /**

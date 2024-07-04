@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('estados', function (Blueprint $table) {
             $table->id();
-            $table->integer('numero');
-            $table->string('estado');
+            $table->integer('numero')->unique();
+            $table->string('estado')->unique();
             $table->timestamps();
         });
     }

@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('materiales_gastados', function (Blueprint $table) {
             $table->id();
 			$table->unsignedBigInteger('material_id')->nullable();
-            $table->foreign('material_id')->references('id')->on('materiales')->onDelete('set null');
+            $table->foreign('material_id')->references('id')->on('materiales')->onDelete('cascade');
 			$table->unsignedBigInteger('tarea_id')->nullable();
-            $table->foreign('tarea_id')->references('id')->on('tareas')->onDelete('set null');
+            $table->foreign('tarea_id')->references('id')->on('tareas')->onDelete('cascade');
 			$table->integer('cantidad');
             $table->integer('precio');
             $table->timestamps();

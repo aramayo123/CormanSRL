@@ -37,6 +37,137 @@ use Madnest\Madzipper\Madzipper;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::post('/notificar_all', function (Request $request){
+    $tareas = Tarea::where('estado_id', '!=', '2')->get();
+   
+    $cuerpo = "";
+    $sucursales = [];
+    foreach($tareas as $tarea){
+        $personales = "";
+        $personal_asignado = TareaAsignada::where('tarea_id', $tarea->id)->get();
+        foreach($personal_asignado as $personal){
+            $personales .= $personal->User->name."\n";
+        }
+        $sucursal = "Suc. ".$tarea->Sucursal->numero. " ". $tarea->Sucursal->sucursal."\n";
+        if($tarea->tipo_de_tarea == "PREVENTIVO")
+            $descripcion = "•	Visita preventiva"."\n";
+        else    
+            $descripcion = "•	".$tarea->ticket.", ".$tarea->descripcion."\n";
+
+        $cuerpo .= "$personales$sucursal $descripcion\n";
+    }
+    $mensaje = "Personal Asignado: Salta capital \n$cuerpo";
+
+    $params=array(
+        'token' => 'ro2lstpspu9c58wb',
+        'to' => '120363313705319582@g.us',
+        'body' => $mensaje,
+        'priority' => '',
+        'referenceId' => '',
+        'msgId' => '',
+        'mentions' => ''
+    );
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.ultramsg.com/instance89273/messages/chat",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_SSL_VERIFYHOST => 0,
+        CURLOPT_SSL_VERIFYPEER => 0,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => http_build_query($params),
+        CURLOPT_HTTPHEADER => array(
+            "content-type: application/x-www-form-urlencoded"
+    ),
+    ));
+
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+
+    curl_close($curl);
+
+    if ($err) {
+        return response()->json([
+            'message' => 'error',
+            'error' => "cURL Error #: $err"
+        ]);
+    } else {
+        return response()->json([
+            'message' => 'exito',
+            'response' => $response
+        ]);
+    }
+});
+
+Route::post('/notificar_tarea', function (Request $request){
+    $id_tarea = $request->id_tarea;
+    $tarea = Tarea::findOrFail($id_tarea);
+    if($tarea->estado_id == 2)
+        return response()->json([
+            'message' => 'error',
+            'error' => "Esta tarea ya fue cerrada"
+        ]);
+
+    $personales = "";
+    $personal_asignado = TareaAsignada::where('tarea_id', $tarea->id)->get();
+    foreach($personal_asignado as $personal){
+        $personales .= $personal->User->name."\n";
+    }
+    $sucursal = "Suc. ".$tarea->Sucursal->numero. " ". $tarea->Sucursal->sucursal."\n";
+    if($tarea->tipo_de_tarea == "PREVENTIVO")
+        $descripcion = "•	Visita preventiva"."\n";
+    else    
+        $descripcion = "•	".$tarea->ticket.", ".$tarea->descripcion."\n";
+
+    $cuerpo = "$personales$sucursal $descripcion\n";
+    $mensaje = "Personal Asignado: Salta capital \n$cuerpo";
+
+    $params=array(
+        'token' => 'ro2lstpspu9c58wb',
+        'to' => '120363313705319582@g.us',
+        'body' => $mensaje,
+        'priority' => '',
+        'referenceId' => '',
+        'msgId' => '',
+        'mentions' => ''
+    );
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.ultramsg.com/instance89273/messages/chat",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_SSL_VERIFYHOST => 0,
+        CURLOPT_SSL_VERIFYPEER => 0,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => http_build_query($params),
+        CURLOPT_HTTPHEADER => array(
+            "content-type: application/x-www-form-urlencoded"
+    ),
+    ));
+
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+
+    curl_close($curl);
+
+    if ($err) {
+        return response()->json([
+            'message' => 'error',
+            'error' => "cURL Error #: $err"
+        ]);
+    } else {
+        return response()->json([
+            'message' => 'exito',
+            'response' => $response
+        ]);
+    }
+});
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 

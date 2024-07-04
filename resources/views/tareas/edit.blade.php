@@ -69,23 +69,23 @@
                         </div>
                         <div class="mb-5 ocultar">
                             <label for="descripcion" class="block mb-2 text-sm font-medium text-gray-900 ">Escriba una descripcion: <p class="inline-block text-gray-500">(opcional)</p></label>
-                            <textarea id="descripcion" name="descripcion" value="{{ $tarea->descripcion }}" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Intente separar con *"></textarea>
+                            <textarea id="descripcion" name="descripcion" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Intente separar con *">{{ $tarea->descripcion }}</textarea>
                         </div>
                         <div class="mb-5 ocultar">
                             <label for="elementos" class="block mb-2 text-sm font-medium text-gray-900 ">Escriba los elementos afectados: <p class="inline-block text-gray-500">(opcional)</p></label>
-                            <textarea id="elementos" name="elementos" value="{{ $tarea->elementos }}" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Intente separar con *"></textarea>
+                            <textarea id="elementos" name="elementos" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Intente separar con *">{{ $tarea->elementos }}</textarea>
                         </div>
                         <div class="mb-5 ocultar">
                             <label for="diagnostico" class="block mb-2 text-sm font-medium text-gray-900 ">Escriba el diagnostico de la situacion: <p class="inline-block text-gray-500">(opcional)</p></label>
-                            <textarea id="diagnostico" name="diagnostico" value="{{ $tarea->diagnostico }}" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Intente separar con *"></textarea>
+                            <textarea id="diagnostico" name="diagnostico" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Intente separar con *">{{ $tarea->diagnostico }}</textarea>
                         </div>
                         <div class="mb-5 ocultar">
                             <label for="acciones" class="block mb-2 text-sm font-medium text-gray-900 ">Escriba las acciones ejecutadas: <p class="inline-block text-gray-500">(opcional)</p></label>
-                            <textarea id="acciones" name="acciones" value="{{ $tarea->acciones }}" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Intente separar con *"></textarea>
+                            <textarea id="acciones" name="acciones" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Intente separar con *">{{ $tarea->acciones }}</textarea>
                         </div>
                         <div class="mb-5">
                             <label for="observaciones" class="block mb-2 text-sm font-medium text-gray-900 ">Escriba las observaciones: <p class="inline-block text-gray-500">(opcional)</p></label>
-                            <textarea id="observaciones" name="observaciones" value="{{ $tarea->observaciones }}" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Intente separar con *"></textarea>
+                            <textarea id="observaciones" name="observaciones" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Intente separar con *">{{ $tarea->observaciones }}</textarea>
                         </div>
                         <div class="mb-5">
                             <label for="fecha_mail" class="block mb-2 text-sm font-medium text-gray-900 ">Seleccione la
